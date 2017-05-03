@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>MySQLDesignGuide</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h1 id="toc_0">MySQL设计编写指南</h1>
+
+<h2 id="toc_1">序言</h2>
+
+<h3 id="toc_2">背景与目标</h3>
+
+<p>随着G7业务的发展，使用MySQL的产品线数量及应用规模不断扩大，由于缺乏相关SQL准则，线上对SQL应用存在不规范不统一，导致SQL性能、稳定和安全性问题。SQL导致的性能低下，直接影响用户体验。</p>
+
+<p>为减少因SQL导致的数据库性能、稳定和安全性问题，形成统一规范标准，为数据库准入建立基础</p>
+
+<h3 id="toc_3">适用范围</h3>
+
+<p>适用于G7所有MySQL数据库开发设计和编写</p>
+
+<h2 id="toc_4">库表设计</h2>
+
+<h3 id="toc_5">高效的设计模型</h3>
+
+<p>数据库设计是指对于一个给定的应用环境，构造合理的数据库模式，建立数据库及其应用系统，有效存储数据，满足用户信息要求和处理要求</p>
+
+<h4 id="toc_6">设计原则说明</h4>
+
+<h5 id="toc_7">完整性</h5>
+
+<p>完整性是指数据的正确性和相容性。数据库的完整性是由完整性约束来保证的；完整性约束通过DBMS或者应用程序来实现。</p>
+
+<ul>
+<li>防止合法用户向数据库中添加不符合语义的数据</li>
+<li>基于MySQL的完整性控制机制实现业务规则，易于定义，容易理解，降低应用程序的复杂性，提高应用程序的效率</li>
+<li>基于MySQL的完整性控制机制是集中管理，比应用程序更容易实现数据库的完整性</li>
+<li>合理的数据库完整性设计，能够同时兼顾数据库的完整性和系统的性能。</li>
+</ul>
+
+<p>完整性包含<em><strong>实体完整性、参照完整性和用户定义完整性</strong></em>，实现机制如下:</p>
+
+<ol>
+<li>实体完整性：主键</li>
+<li>参照完整性</li>
+<li>父表中删除数据: 级联删除；受限删除；置空值</li>
+<li>表中插入数据: 受限插入；递归插入</li>
+<li>父表中更新数据: 级联更新；受限更新；置空值</li>
+<li>MySQL的参照完整性实现有三种方法实现: 外键和触发器</li>
+<li>用户定义完整性: 针对某一具体数据结构的约束条件，反映具体应用对所设计数据的语义要求，比如字段取值范围等</li>
+</ol>
+
+<p>设计的基本原则如下:</p>
+
+<ol>
+<li>根据数据库完整性约束的类型确定其实现的层次和方式。一般情况下，静态约束应尽量包含在数据库模式中，而动态约束由应用程序实现</li>
+<li>静态约束: 在确定状态时，数据所应满足的约束条件，反映数据库状态合理性的约束。如列取值、列类型、空值等约束</li>
+<li>动态约束：数据从一种状态转变为另一种状态时，新、旧值之间所应满足的约束条件，反映数据状态变迁的约束，比如自定义完整性约束</li>
+<li>实体完整性约束和参照完整性约束是关系数据库最重要的完整性约束，在不影响系统关键性能的情况下需考虑</li>
+<li><em><strong>慎用或不用MySQL触发器</strong></em>，一方面由于触发器的性能开销较大，且不易维护；另一方面，触发器的多级触发不好控制，容易发生错误</li>
+<li>要根据业务规则对完整性进行细致的测试，尽早排除隐含的完整性约束间的冲突和对性能的影响</li>
+<li>在应用代码与数据库中间提供另一层抽象，避免应用程序直接访问数据库，在数据库变更时对外提供更多自由和兼容</li>
+<li>在MySQL中由于一些约束和存储引擎有关，比如外键约束的需求，因此设计时需要注意该表存储引擎的选择</li>
+</ol>
+
+<h5 id="toc_8">性能</h5>
+
+<p>在设计阶段需要注意，不能以范式作为唯一标准或指导，需要从实际需求出发，以性能提升为根本目标进行设计，所以有时会出现反范式设计</p>
+
+<ol>
+<li>设置合理的字段类型和长度。字段类型在满足需求后，应尽量短，比如，能用int满足需求的就不要用bigint</li>
+<li>选择高效的主键和索引。<em><strong>所有对表记录的读取都是直接通过主键或索引来获取</strong></em>，因此需要根据应用需求来设计合理的主键和索引。同时<em><strong>根据读写场景，减少索引长度或适当增加索引长度</strong></em></li>
+<li><p>适度冗余，避免关联查询和join查询等</p></li>
+<li><p>精简表结构，根据业务特性拆成多个表，避免高并发下的锁表和业务上复杂的处理</p></li>
+</ol>
+
+<h5 id="toc_9">扩展性</h5>
+
+<p>数据库表的扩展性主要包含垂直扩展(逻辑结构、功能字段的增加)和水平扩展(分库、分表)</p>
+
+<ul>
+<li>一表一实体，如果不同实体之间有关系时，增加一个单独的关系表</li>
+<li>扩展字段。在表数据较小时，增加一个字段成本较低；但是如果预估表将来会很大时，可考虑预留扩展字段</li>
+<li>分表设计，根据数据特性以及数据之间的关系，选择合适的切分策略。</li>
+</ul>
+
+<h4 id="toc_10">正则化与非正则化的选择</h4>
+
+<p>正则化与非正则化需要根据实际场景，结合使用</p>
+
+<h5 id="toc_11">正则化</h5>
+
+<p>正则化指消除冗余，有效组织数据，减少在数据操作期间潜在的不规则和提高数据一致性。在正则化数据库中，每个元素只会被存储一次</p>
+
+<p><em><strong>优点</strong></em></p>
+
+<ol>
+<li>更新快</li>
+<li>重复数据少，数据量小</li>
+<li>更易装入内存，性能好</li>
+</ol>
+
+<p><em><strong>缺点</strong></em></p>
+
+<ol>
+<li>在面对非一般性查询时，一般至少都需要一个join</li>
+</ol>
+
+<h5 id="toc_12">非正则化</h5>
+
+<p>非正则化指信息是重复的或者保存在多个地方的</p>
+
+<p><em><strong>优点</strong></em></p>
+
+<ol>
+<li>避免了查询连接的消耗</li>
+</ol>
+
+<p><em><strong>缺点</strong></em></p>
+
+<ol>
+<li>数据冗余，数据量变大</li>
+<li>数据的一致性变差，需要靠应用程序保证</li>
+</ol>
+
+<h3 id="toc_13">存储引擎的选择</h3>
+
+<p>MySQL是一个插件式存储引擎的架构，可以支持数个存储引擎作为不同表类型的处理器</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">存储引擎</th>
+<th style="text-align: left">是否支持事务</th>
+<th style="text-align: left">索引类型</th>
+<th style="text-align: left">是否支持外键</th>
+<th style="text-align: left">锁粒度</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">MyISAM</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">B+ Tree和全文索引</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">只支持表级锁，insert操作和select操作可以并发进行</td>
+<td style="text-align: left">内存中只缓存索引，不缓存数据，适合读多写少的场景</td>
+</tr>
+<tr>
+<td style="text-align: left">InnoDB</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">B+ Tree</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">行级锁</td>
+<td style="text-align: left">索引和数据都在内存中</td>
+</tr>
+<tr>
+<td style="text-align: left">BlackHole</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">无</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">无</td>
+<td style="text-align: left">仅记录日志，适用于日志统计、过滤和同步中间层等</td>
+</tr>
+<tr>
+<td style="text-align: left">Memory</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">B+ Tree和Hash</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">同myisam</td>
+<td style="text-align: left">所有数据均在内存中，不支持blob和text类型</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_14">选择合适的存储引擎</h4>
+
+<p>在设计初期就要考虑选择合适的存储引擎，如下是主要的考虑因素</p>
+
+<ol>
+<li>事务：如果应用有事务需求，那么选择InnoDB</li>
+<li>并发：如果只是并发的插入和查询，则MyISAM是一个好的选择；如果是混合的并发，则选择InnoDB</li>
+<li>操作日志转发：选择Blackhole</li>
+<li>只读：选择MyISAM的压缩表，比如图片存储等</li>
+</ol>
+
+<p>本文未列出类似merge，csv，federated等存储引擎，由于存在各种问题和有其他替代品，暂未列出，也不推荐使用</p>
+
+<h3 id="toc_15">表容量设计</h3>
+
+<p>随着数据库的数据积累，表记录数可能增长到亿、十亿等级别，数据库表的访问效率下降明显，导致访问时间增加，用户体验下降。此时，需要考虑数据切分来解决问题。</p>
+
+<p>数据切分指通过某种特定的条件，将存放在同一个表中的数据分散存放到多个数据库或表中。按照切分规则类型来区分，一种是垂直切分，将表的一些字段切分到其他表中；另一种是水平切分，根据表中数据的关系，将同一个表中的数据按照某种规则切分到不同数据库中的同类型不同名字的表中。</p>
+
+<h4 id="toc_16">垂直切分</h4>
+
+<p>根据功能模块进行切分，不同功能模块见解藕</p>
+
+<p>优点</p>
+
+<ol>
+<li>数据的切分简单明了，切分规则明确</li>
+<li>应用程序模块清晰明确，整合容易</li>
+<li>数据维护方便易维护</li>
+</ol>
+
+<p>缺点</p>
+
+<ol>
+<li>部分表的关联关系无法在数据库中完成，需要在程序中进行</li>
+<li>对于访问极其频繁且数据量超大的表仍然存在性能瓶颈</li>
+<li>事务处理变得复杂</li>
+<li>切分到达一定程度后，扩展性会受到限制</li>
+<li>过度切分可能会导致系统过于复杂而难以维护</li>
+</ol>
+
+<h4 id="toc_17">水平切分</h4>
+
+<p>将表中一些行切分某另一个数据库或表中</p>
+
+<p>优点</p>
+
+<ol>
+<li>数据关联能在数据表中完成</li>
+<li>不会存在某些超大型数据量或高负载的表遇到的瓶颈问题</li>
+<li>应用程序端整体架构改动较少</li>
+<li>只要切分规则能定义好，扩展性一般不会收到太大限制</li>
+</ol>
+
+<p>缺点</p>
+
+<ol>
+<li>切分规则相对复杂</li>
+<li>后期的维护难度有所增加，定位数据复杂度增加</li>
+<li>若切分不合理，会造成冷热数据分布不均</li>
+</ol>
+
+<h4 id="toc_18">垂直切分与水平切分结合</h4>
+
+<p>垂直切分能更清晰化模块，区分治理；水平切分能解决大数据量性能瓶颈问题。</p>
+
+<p>在实际应用场景中，每一个应用系统的负载都是一步步增长起来的，在刚开始遇到性能或耦合问题时，大多采用垂直切分的方式。当系统增长到数据量过大时，采用水平节分解决性能问题</p>
+
+<p>随着系统的进一步复杂，需要根据当前面临的最大问题，决定是进行分区治理还是水平扩容</p>
+
+<p>优点</p>
+
+<ol>
+<li>可以充分利用各自的优势，而避免各自的缺陷</li>
+<li>最大化提升系统扩展性</li>
+</ol>
+
+<p>缺点</p>
+
+<ol>
+<li>数据库系统架构会变得复杂，维护难度加大</li>
+<li>应用程序架构也变得复杂</li>
+</ol>
+
+<h3 id="toc_19">字符集选择</h3>
+
+<p>主要考虑因素包括</p>
+
+<ol>
+<li>满足应用支持语言的要求，中文字符尽量考虑使用unicode字符集，如果包含imoji表情等涉及4字节扩展部分的需求，可以指定字段的字符集为utf8mb4</li>
+<li>涉及已有数据的导入，就要考虑数据库字符集对已有数据的兼容性</li>
+<li>如果是用了gbk或gb2312等字符编码时，须保证MySQL连接的字符集与表的字符集相同，否则会有注入的安全风险</li>
+<li>尽量保证mysql连接的字符集与表结构的字符集一致，避免字符集转换带来的额外开销</li>
+</ol>
+
+<h2 id="toc_20">合适的数据类型</h2>
+
+<h3 id="toc_21">数据类型的选择原则</h3>
+
+<p>第一步大致确定存储数据类型的大类：数字、字符串、时间等</p>
+
+<p>第二步确定特定的数据类型。许多MySQL类型同属一类，但在存储范围、精度、占用空间上却不相同，一些数据类型还有特殊的行为和属性</p>
+
+<p><em><strong>列类型选择原则</strong></em></p>
+
+<ol>
+<li><em><strong>更小的数据类型更好：</strong></em>使用正确的存储和表示数据的最小类型</li>
+<li><em><strong>简单更好</strong></em>：越简单的数据类型，消耗的资源越小，比如，比较整数的代价小于比较字符串的；使用整数来保存IP；</li>
+<li><em><strong>尽量避免使用NULL</strong></em>：mysql难以优化引用了可空列的查询，因为null不等于任何值，它会使得索引更加复杂，很难用到索引</li>
+</ol>
+
+<h3 id="toc_22">数据类型</h3>
+
+<h4 id="toc_23">整数</h4>
+
+<p>支持的整数类型如下</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">整数类型</th>
+<th style="text-align: left">同名词</th>
+<th style="text-align: left">存储空间(byte)</th>
+<th style="text-align: left">范围</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">tinyint</td>
+<td style="text-align: left">int1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">-127~128</td>
+</tr>
+<tr>
+<td style="text-align: left">smallint</td>
+<td style="text-align: left">int2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">-32768~32767</td>
+</tr>
+<tr>
+<td style="text-align: left">mediumint</td>
+<td style="text-align: left">int3, middleint</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">-8388608~8388607</td>
+</tr>
+<tr>
+<td style="text-align: left">int</td>
+<td style="text-align: left">int4</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">-2147483648~2147483647</td>
+</tr>
+<tr>
+<td style="text-align: left">bigint</td>
+<td style="text-align: left">int8</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">-9223372036854775808~9223372036854775807</td>
+</tr>
+</tbody>
+</table>
+
+<p>整数类型有可选的unsigned属性，需要注意整数类型的<em><strong>整型溢出问题</strong></em>，如交易系统的金额</p>
+
+<p><em><strong>对整数类型定义的宽度，如int(11)，这对于大多数应用程序都是没有意义的</strong></em>，它不会限制值的范围，只规定了MySQL交互工具用来显式字符的长度</p>
+
+<h4 id="toc_24">实数</h4>
+
+<p>MySQL同时支持精确和非精确类型</p>
+
+<p><em><strong>float和double属于非精确(浮点)类型</strong></em>，用于保存非精确的小数，即数据库存储的值和要保存的值可能不一致</p>
+
+<p><em><strong>decimal类型是精确类型，用于保存精确的小数</strong></em>。mysql支持decimal运算，但cpu并不直接支持，因此效率相对较低</p>
+
+<p>关于浮点类型和decimal类型的精度</p>
+
+<ul>
+<li>对于浮点数类型，可以使用多种方式定义其精度，会导致MySQL悄悄采用不同的数据类型，或者在保存的时候进行调整。比如float(1)或者float(30)，这个长度仅能决定存储占用的字节数(4字节float或者8字节double)。如果长度在0到23之间，这是一个单精度浮点类型(float)，如果长度在24到53之间，这是一个双精度浮点类型(double)。对于这种定义方式，小数点前后的数字位数由MySQL自己决定。再比如对于float(9，5)和double(9，5)，9规定的是显示宽度，5规定的是小数点后的数字位数。对于浮点数类型显示宽度必须在1到255之间，小数点后位数必须在0到30之间</li>
+<li>对于decimal列，可以定义小数点之前和之后的最大位数，这影响了所需的存储空间。MySQL将decimal存储为二进制形式，decimal(18,9)表示保存小数点前后各9位数字。decimal类型最大支持65位的数字</li>
+</ul>
+
+<h4 id="toc_25">字符存储类型</h4>
+
+<p>char和varchar两种类型在磁盘或内存的存储方式依赖于存储引擎。本节主要针对MyISAM和InnoDB介绍它们的存储方式</p>
+
+<h5 id="toc_26">varchar</h5>
+
+<p>varchar保存可变长度的字符串，它能比固定长度类型占用更少的存储空间。因为它只占用了自己需要的空间，较短的值占用的空间就较小。例外情况是使用row_format=fixed创建的MyISAM表，它为每行使用固定长度的空间，可能会造成浪费。</p>
+
+<p>varchar的最大存储限制为字节数，最大单条记录不超过65536字节。在表定义时varchar(m)中的m表示的是字符数，所以在定义时需要考虑实际存储的数据最大字符长度(最多包含的字符数)和字符集每个字符占用的字节数来决定m的最大值。</p>
+
+<p>varchar使用额外的1或2个字节来存储值的长度。如果列的最大长度小于或等于255，则使用1字节，否则就使用2字节。假设使用latin1字符集(一个字符对应存储占一个字节)，varchar(10)将占用11字节的存储空间。varchar(1000)则占用1002字节。
+varchar能节约空间，所以对性能有帮助。</p>
+
+<p>由于行的长度是可变的，在更新的时候可能会发生变化，会引起额外的工作。如果行的长度增加并不再适合于原始的位置时，具体的行为则会和存储引擎有关。例如，MyISAM会把行拆开，InnoDB则可能分页。</p>
+
+<p>当最大长度大于平均长度，并且很少发生更新的时候，通常适合使用varchar。</p>
+
+<p>对于varchar(5)和varchar(200)保存“hello”占用的空间是一样的，但是较短的列会有很大的优势，较大的列会使用更多的内存，因为MySQL通常会分配固定大小的内存块来保存值。</p>
+
+<p>这对排序或使用基于内存的临时表尤其不好。同样的事情也会发生在使用文件排序或基于磁盘的临时表的时候。最好的策略就是只分配真正需要的空间。</p>
+
+<h5 id="toc_27">char</h5>
+
+<p>char是固定长度的，MySQL为特定数量的char分配足够的空间。当保存char值的时候，MySQL会去掉任何末尾的空格，进行比较的时候，空格会被填充到字符串末尾。<em><strong>如果所要存储的数据末尾确实需要空格则不能使用char类型存放</strong></em>。</p>
+
+<p>如果定义char(m)时，m表示定义m个字符，<em><strong>如果m超过255时，MySQL会直接报错</strong></em>。而char(m)最终在磁盘和内存中的<em><strong>存储字节数是基于字符集的</strong></em>。如latin1最大存储长度是255字节，而gbk最大存储长度是510字节。</p>
+
+<p>char在存储很短的字符串或长度近似相同的字符串的时候很有用。例如，char适合用存储用户密码的md5哈希值，它的长度总是一样。对于经常改变的值，char也好于varchar，因为固定长度的行不容易产生碎片。对于很短的列，char的效率也高于varchar。char(1)字符串对于单字节字符集只会占用1个字节，但是varchar(1)则会占用2个字节。</p>
+
+<p>数据如何保存取决于存储引擎，并非所有的存储引擎都会按照相同的方式来处理定长和可变长度的字符串。Memory存储引擎使用了固定长度的行，因此当它面对可变长度字段的时候就会分配可能的最大空间</p>
+
+<p>但是填充和截取空格的行为在各个存储引擎之间都是一样的，因为这是MySQL SERVER程序的行为。</p>
+
+<h5 id="toc_28">binary和varbinary</h5>
+
+<p>binary存储固定长度字节的二进制字符串；varbinary存储变长的二进制字符串</p>
+
+<p>二进制字符串和传统的字符串很类似，但是它们保存的是字节，而不是字符。填充也有不同，MySQL使用\0填充binary值，而不是空格，并且不会再获取数据时把填充的值截掉。</p>
+
+<p>它们在必须要存储二进制数据并且想让MySQL按照字节进行比较的时候是有用的。字节比较的优势并不仅仅体现在大小写敏感上。MySQL按照字节的数值进行比较，比按照字符比较简单的多，效率也更高效</p>
+
+<h5 id="toc_29">blob和text</h5>
+
+<p>blob和text分别以二进制和字符形式保存大量数据。在大多数方面，可以将blob类型视为能足够大的varbinary类型；同样，可以将text类型视为足够大的varchar类型。</p>
+
+<p>blob和text在以下几个方面不同于varbinary和varchar</p>
+
+<ul>
+<li>当保存或检索blob和text列的值时不删除尾部空格</li>
+<li>对于blob和text列上的索引，必须指定前缀长度</li>
+<li>blob和text列不能有默认值</li>
+<li>blob和text各自有自己的数据类型家族：字符类型有tinytext、smalltext、text、mediumtext和longtext，二进制类型有tinyblob、smallblob、blob、mediumblob和longblob。blob等用于smallblob，text等同于smalltext</li>
+<li>text和blob要进行overflow存储，即对于这两个字段的数据，不会和行数据在一起，但原则上不会全部overflow，会有768字节和原始行存储在一块</li>
+</ul>
+
+<p>blob和text唯一的区别就是blob保存的是二进制数据，没有字符集和排序规则，但是text有字符集和排序规则。</p>
+
+<p>MySQL对text列的排序方式和其他类型不同：它不会按照字符串的完整长度进行排序，而只是按照max_sort_length规定的前若干个字节进行排序。如果只按照开始的几个字符排序，就可以减少max_sort_length的值或使用order by substring(column，length)。
+MySQL不能索引这些数据类型的完整长度，也不能为排序使用索引。</p>
+
+<p>对于memory存储引擎，则应尽量避免使用这两种类型</p>
+
+<h4 id="toc_30">日期类型</h4>
+
+<p>datetime这个类型能保存大范围的值，从1001年到9999年，精度为秒，占用8字节存储空间</p>
+
+<p>它把日期和时间封装到一个格式为yyyymmddhhmmss的整数中，与时区无关，<em><strong>不包含时区信息，因此不建议使用datetime存储时间信息</strong></em></p>
+
+<h4 id="toc_31">时间类型</h4>
+
+<p>timestamp类型保持了自1970年1月1日午夜以来的秒数，它和unix时间戳相同。timestamp只使用了4字节的存储空间，因此它的范围比datetime小得多。它只能表示从1970年到2038年。</p>
+
+<p>MySQL提供了from_unixtime()函数把unix时间戳转换为日期，并提供了unix_timestamp()函数，把日期转换为unix时间戳。timestamp显示的值依赖于MySQL服务器，操作系统及客户端连接的时区设置。比如，保存0值的timestamp实现显示为美国东部时间1969-12-31 19:00:00，与格林尼治标准时间(GMT)相差5小时。</p>
+
+<p>timestamp也有datetime没有的特殊性质。在默认情况下，如果插入的行没有定义timestamp列的值，MySQL会把它设置为当前时间。在更新的时候，如果没有显示地定义timestamp列的值，MySQL也会自动更新它。可以配置timestamp列的插入和更新行为。</p>
+
+<ul>
+<li><p>TIMESTAMP ON UPDATE CURRENT_TIMESTAMP：在创建新记录和修改现有记录的时候都对这个数据列刷新</p></li>
+<li><p>TIMESTAMP DEFAULT CURRENT_TIMESTAMP：字段设置为当前时间，但以后修改时，不再刷新它</p></li>
+<li><p>TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP：在创建新记录的时候把这个字段设置为0</p></li>
+</ul>
+
+<p>timestamp列默认是not null，这和其他数据类型都不一样。</p>
+
+<p><em><strong>Warning：不建议使用此类型存储时间</strong></em></p>
+
+<ul>
+<li>仅能表示到2038年，因此建议使用int unsigned或int64来存储时间</li>
+</ul>
+
+<h4 id="toc_32">其他常用类型</h4>
+
+<h5 id="toc_33">bit</h5>
+
+<p>bit代表二进制位，可以通过bit列，即bit(n)来紧凑地保存数据。bit(n)定义了含有n位二进制位的字段。bit列的最大长度是64位。</p>
+
+<p>bit列的行为在不同的存储引擎之间是不同的。MyISAM出于存储的目的，会把列包起来，因此17个单独的bit列只需要17位存储空间(假设所有列都不允许null)。MyISAM会把存储空间调整为3个字节。</p>
+
+<p>MySQL把bit当成字符串类型，而不是数字类型。当获取bit(1)值的时候，结果是一个字符串，但内容是二进制的0或者1，而不是ASCII值“0”或者“1”。但是，如果以数字的方式把它取出来，结果就是该二进制字符串的数字。例如把值b‘00111001’保存到bit(8)列中，并且以字符的方式取出来，这时就会得到包含了字符代码为57的字符串，它正好等于ASCII字符“9”。但如果用数字的方式取出来，就会得到57。</p>
+
+<p>这个特点使得bit类型比较迷惑人。如果对bit特点不清楚的，最好避免使用该类型</p>
+
+<h5 id="toc_34">set</h5>
+
+<p>如果要保存许多true/false或bit值，可以考虑把许多列合并为set数据类型，它在MySQL内部是以一系列位表示的。</p>
+
+<p>set是一个字符串对象，可以有零或多个值，其值来自表创建时规定的允许的一列值。指定包括多个set成员的set列值时各成员之间用逗号隔开。如set(‘one’, ‘two’)not null定义的列可以包含的值：‘’‘one’ ‘two’ ‘one,two’</p>
+
+<p><em><strong>set成员本身不能含逗号; set最多可以有64个不同的成员</strong></em></p>
+
+<p>set有效地使用了存储空间，并且MySQL有诸如find_in_set()和field()这样的函数，方便在查询中使用它。</p>
+
+<p>它的主要缺点是<em><strong>改变列定义的代价比较高</strong></em>，需要alter table，这在大表上是很昂贵的操作。通常来说，也不能在set列上使用索引。</p>
+
+<p>set类型的一种代替方式是利用整数包装一系列位。例如可以把8位包装到tinyint中，并且通过位运算符来操纵他们。可以在应用程序中为每个位定义命名常量来实现替代set类型。这样的好处在于不用alter table就可以改变字段代表的“枚举”意义；缺点是需要应用程序保存对应位对应值的意义，同时比较查询比较难写</p>
+
+<h5 id="toc_35">enum</h5>
+
+<p>enum是一个字符串对象，其值来自表创建时再列规定中显示枚举的一列值。</p>
+
+<p>如果将一个非法值插入enum(也就是说，允许的值列之外的字符串)，MySQL将插入空字符串以作为特殊错误值。该字符串与“普通”空字符串不同，该字符串有数值值0。</p>
+
+<p>如果将enum列声明为允许null，null值则为该列的一个有效值，并且该列的默认值为null。否则enum列被声明为not null，其默认值为允许的值列的第1个元素。</p>
+
+<p>每个枚举值有一个索引：来自列规定的允许值列中的值从1开始编号；空字符串错误值的索引为0；null的索引为null。这说明可以使用索引0来查找分配了非法enum值的行。
+枚举最多可以有65535个元素。enum成员值的尾部的空格会被自动删除</p>
+
+<p>同样，主要缺点是<em><strong>改变列定义的代价比较高</strong></em>，需要alter table</p>
+
+<h2 id="toc_36">索引</h2>
+
+<h3 id="toc_37">索引介绍</h3>
+
+<p>为了满足对数据的快速访问，我们通常需要将数据组织成一种有序的方式， 而原始的情况下数据的物理存储顺序便可代表一种“序”，但是由于物理存储的“序”只能是一种，但我们业务的访问模式是多样的，所以我们有了索引,索引是一种以更小代价来组织数据关系的一种“序”，不同的索引可以满足不同的访问模式</p>
+
+<p>索引类型的选择主要取决于不同的需求</p>
+
+<ul>
+<li>hash index主要满足于高效的精确匹配需求(O(1))</li>
+<li>B+ Tree index 主要满足范围查询和较高效的匹配需求(O(logN))</li>
+<li>Fulltext index主要满足全文关键字查询</li>
+</ul>
+
+<p>MySQL在除B+ Tree Index外，在其他index的上表现并不适用于线上使用场景，因此后续的说明仅在B+ Tree index的范围内</p>
+
+<p>由于不同的存储引擎对B+ Tree index的实现并不相同，因此会分开说明InnoDB和MyISAM的实现</p>
+
+<h4 id="toc_38">InnoDB B-Tree</h4>
+
+<h5 id="toc_39">聚簇索引(cluster index)</h5>
+
+<p>聚簇索引不是一种单独的索引类型，而是一种存储数据的方式。当表有聚簇索引的时候，它的数据行实际保存在索引的叶子页。聚簇是指实际的数据行和相关的键值都保存在一起。</p>
+
+<p>每个表只能有一个聚簇索引。数据与索引在同一个B-Tree上，一般数据的存储顺序与索引的顺序一致。InnoDB cluster index每个叶子节点包含primary key 和行数据，非叶子节点只包括被索引列的索引信息。</p>
+
+<p>优点</p>
+
+<ul>
+<li>相关的数据保存在一起，利于磁盘存取</li>
+<li>数据访问快，因为聚簇索引把索引和数据一起存放</li>
+<li>覆盖索引可以使用叶子节点的primary key的值使查询更快</li>
+</ul>
+
+<p>缺点</p>
+
+<ul>
+<li>如果访问模式与存储顺序无关，则聚簇索引没有太大的用处</li>
+<li>按主键顺序插入和读取最快, 但是如果按主键随机插入(特别是字符串)则读写效率降低</li>
+<li>更新聚簇索引的代价较大，因为它强制InnoDB把每个更新的行移到新的位置</li>
+<li>建立在聚簇索引上的表在插入新行，或者在行的主键被更新，该行必须被移动的时候会进行分页。分页发生在行的键值要求行必须被放到一个已经放满了数据的页的时候，此时存储引擎必须分页才能容纳该行，分页会导致表占用更多的磁盘空间</li>
+<li>聚簇表可能会比全表扫描慢，尤其在表存储的比较稀疏或因为分页而没有顺序存储的时候</li>
+<li>非聚簇索引可能会比预想的大，因为它们的叶子节点包含了被引用行的主键列</li>
+<li>非聚簇索引访问需要两次索引查找，而不是一次</li>
+</ul>
+
+<p>其它需要说明点：</p>
+
+<ul>
+<li>InnoDB的primary key为cluster index, 除此之外，不能通过其他方式指定cluster index,</li>
+<li>如果InnoDB不指定primary key，InnoDB会找一个unique not null 的field做cluster index；如果还没有这样的字段，则InnoDB会建一个非可见的系 统默认的主键row_id(6个字节长)作为cluster_index</li>
+<li>建议使用数字型auto_increment 的字段作为 cluster index</li>
+<li>不推荐用字符串字段做cluster index (primary key)，因为字符串往往都较长， 会导致secondary index过大(secondary index的叶子节点存储了primary key 的值)，而且字符串往往是乱序</li>
+<li>cluster index乱序插入容易造成插入和查询的效率低下</li>
+</ul>
+
+<h5 id="toc_40">辅助索引(secondary index)</h5>
+
+<p>InnoDB 中非cluster index的所有索引都是secondary index</p>
+
+<p>secondary index的查询代价变大，需要两次B-Tree查询，一次secondary index, 一次cluster index。所以在建立cluster index和secondary index的时候需要考虑到这点。</p>
+
+<p>当secondary index满足covering index时，只需要一次B-Tree查询并且直接在secondary index便可获取所需数据，不需要再进行数据读取，提高了效率。我们在设计索引和写SQL语句的时候就可以考虑利用到covering index的优势</p>
+
+<p>建议尽量减少对 primary key 的更新, 因为secondary index叶子节点包含primary key 的value (这样避免当row被移动或page split时更新secondary index)，primary key的变化会导致所有secondary index的更新。</p>
+
+<h5 id="toc_41">覆盖索引(covering index)</h5>
+
+<p>索引通常是用于找到行的，但也可以用于找到某个字段的值而不需要读取整个行，因为索引中存储了被索引字段的值,只读索引不读数据, 这种情况下的索引就叫做覆盖索引</p>
+
+<p>覆盖索引是很有力的工具，可以极大地提高性能。它主要的优势如下</p>
+
+<ul>
+<li>索引记录通常远小于全行大小，因此只读索引，MySQL就能极大的减少数据访问量。这对缓存的负载是非常重要的，它大部分的响应时间都花在拷贝数据上。对于I/O密集型的负载也有帮助。因为索引比数据小很多，能很好的装入内存</li>
+<li>索引是按照索引值来进行排序的，因此I/O密集型范围访问将会比随机地从磁盘提取每行数据要快的多</li>
+<li>覆盖索引对于InnoDB来说非常有用，因为InnoDB的聚集缓存。InnoDB的辅助索引在叶子节点保存了主键值，因此，覆盖查询的第二索引在主键上避免了另外一次索引查找</li>
+</ul>
+
+<h4 id="toc_42">MyISAM B-Tree</h4>
+
+<p>MyISAM B-Tree索引和InnoDB B-Tree索引类似，但是在数据布局上是不同的。
+与InnoDB不同，MyISAM的主键和其它索引没有结构上的区别。主键只是一个唯一的，名为primary key的非空索引。</p>
+
+<p>MyISAM B-Tree 支持前缀压缩, 压缩后的索引称为MyISAM packed index。索引可以压缩为原来的1/10, 其实是CPU/mem/disk 之间的一个tradeoff, create table的时候可以为索引指定 pack_keys (alter table t engine=MyISAM pack_keys=1)，但是packed index对反向order和binary-search效率差</p>
+
+<h4 id="toc_43">前缀索引</h4>
+
+<p>在MySQL 中，索引只能从字段内容的最左端开始建， 查询的时候也只能从索引的最左端开始查， 对字段内容只建从左开始的部分字节的索引，而非全部做索引的这种index 就叫做前缀索引(prefix index)。</p>
+
+<p>优点</p>
+
+<ul>
+<li>在索引满足一定的区分度的情况下，索引变得更小，更有利于放入或将更多的索引放入内存，减少I/O操作，提高效率</li>
+</ul>
+
+<p>缺点</p>
+
+<ul>
+<li>前缀索引不支持covering index和order by</li>
+</ul>
+
+<p>举例说明下：假如表account上有如下索引 (balance,customer_email(50),account_number);其中字段customer_email的定义为varchar(100)，那如下的两个SQL并不能完全使用该索引。</p>
+
+<ul>
+<li><code>select account_number</code>
+<code>from account</code>
+<code>where balance=100.1 and customer_email=’1@1.com’</code></li>
+<li><code>select account_id</code>
+<code>from account</code>
+<code>where balance=100.1 and customer_email=’1@1.com’ order by account_number;</code></li>
+</ul>
+
+<h5 id="toc_44">前缀索引适合的字段类型</h5>
+
+<p>如果索引blob和text列，或者很长的varchar列，就必须定义前缀索引，这样既能节约空间同时能得到好的性能。</p>
+
+<p>int型的不建议使用prefix index, 虽然可以提升效率，但是却不能使用order by, covering index等， 建议使用更小的数字类型如tinyint,bit等来满足</p>
+
+<h5 id="toc_45">前缀索引的合理长度选择</h5>
+
+<p>前缀索引涉及索引到底建多长的选择。短的索引可以节约空间。但是前缀又应该足够长，使他的选择性能够接近索引整个列，因此前缀的基数性应该接近于全列的基数性</p>
+
+<p>设计索引的时候结合记录数、字符集大小、字段长度、字段内容的重复程度、字符之间的相关性等考虑索引长度，索引长度不当将使索引过于庞大， 内存资源利用不高， 造成 IO较重，程序效率降低</p>
+
+<p>合理的索引长度，可以在满足较好索引区分度的情况下减少索引所占空间，我们的目标就是找到索引空间大小与索引区分度的一个平衡点。</p>
+
+<p>选择索引长度的方法：</p>
+
+<ul>
+<li>首先了解表中记录的总体情况，如果表中数据还不存在或者很少，应该通过了解业务去构造和模拟符合业务和产品特点的数据，使用这些数据来模拟上线后的真实数据</li>
+<li>show table status\G；能看到 avg_row_length (每行的平均长度, 不准确) 、rows(不准确) 、data所占空间、已有索引所占空间等信息</li>
+<li>select count(*) from table；查看准确的总体行数</li>
+<li>查看欲建立索引的字段的总体情况</li>
+<li>通过select * from t procedure analyse()\G; 能看到表中所有字段的min_value 、max_value 、min_length 、max_length 、是否为null、字段平均长度、字段类型优化建议等信息。其中字段长度的相关信息很重要，它给出了字段的大致信息，对索引长度的选择很有帮助， 而字段类型优化则是在已有内容基础上给出的类型优化， 例如：如果你的表中有1000万行， 字段name为字符串， 但是却只有”a”,”b”,”c”三个值，则会建议优化字段类型为enum(“a”,”b”,”c”), 这样查询和索引效率都会大大提高</li>
+<li>查看欲建立字段的最佳索引区分度，select count(distinct city)/count(*) from city_demo；是该字段全部内容长度都做索引能达到的最理想的区分度，这个首先可以用来衡量该字段是否适合做索引</li>
+<li>看不同索引长度的区分度, 这个是个平均值例如：
+<code>Select count(distinct left(city, 3))/count(*) as sel3,Count(distinct left(city, 4))/count(*) as sel4,</code>
+<code>Count(distinct left(city, 5))/count(*) as sel5,Count(distinct left(city, 6))/count(*) as sel6, Count(distinct left(city, 7))/count(*) as sel7</code>
+<code>From city_demo;</code></li>
+<li>查看到city字段做3个字节索引、4个字节索引、5个字节索引、6个字节索引、7个字节索引的区分度, 可以一直增加索引长度来探测结果</li>
+<li>如果随着索引长度的增加， 索引区分度在很明显地增大， 那说明我们应该继续增加索引长度，使当我们增加索引长度时，索引区分度没有明显变化，我们仍然应该继续增加索引长度探测</li>
+<li>那么探测到何时为止呢？当我们发现继续增加很多索引长度但是区分度却没有明显提升而现有区分度接近第3条中的最佳区分度时，这个时候的索引长度可能就比较合理了</li>
+<li>截止上面的步骤， 我们找的都是平均分布，有可能出现的是平均区分度很好而少量数据集中出现区分度极差的情况, 所以我们还需要查看一下区分度分布是否均匀</li>
+<li>查看区分度是否均匀：</li>
+</ul>
+
+<p><code>select count(*) as cnt,city
+from city_demo
+group by city
+order by cnt desc limit 100;</code></p>
+
+<p><code>select count(*) as cnt,left(city,3) as pref
+from city_demo
+group by pref
+order by cnt desc limit 100;</code></p>
+
+<p><code>select count(*) as cnt,left(city,4) as pref
+from city_demo
+group by pref
+order by cnt desc limit 100;</code></p>
+
+<p><code>select count(*) as cnt,left(city,5) as pref
+from city_demo
+group by pref
+order by cnt desc limit 100;</code></p>
+
+<ul>
+<li><p>索引选择的最终长度应该在平均区分度(前4条)与区分度是否均匀(第5条)之间长度做一个综合的选择</p></li>
+<li><p>建完索引后 show table status 查看索引大小。这是一个收尾且非常重要的工作， 我们必须清楚的知道建立这个索引的代价</p></li>
+</ul>
+
+<h3 id="toc_46">索引的合理设计和使用</h3>
+
+<h4 id="toc_47">索引的字段及长度</h4>
+
+<h5 id="toc_48">主键和候选健上的约束</h5>
+
+<p>在create table语句中，我们可以指定主键和候选键。主键和候选键都有unique约束，这些列不会包含重复值。MySQL自动为主键和每个候选键创建一个唯一索引，以便新值的唯一性可以很快检查，而不必扫描全表。同时加速对于这些列上确定值的查找。</p>
+
+<p>主键的索引名为prmariy，候选键的名为该键包含的第一列的列名。如果存在多个候选键的名字以同一个列名开头，就在该列名后放置一个顺序号码区别</p>
+
+<h5 id="toc_49">连接列上创建索引</h5>
+
+<p>一般会在表的连接列上建立索引，尤其是该表频繁参与连接操作。对于一个比较大的连接操作，如果被驱动表的连接列上没有索引的话，由于MySQL的连接算法是nested loop算法，会造成多次扫描被驱动表，对数据库造成的压力和开销是巨大的</p>
+
+<h5 id="toc_50">在高选择列上创建索引</h5>
+
+<p>属性列上的选择度是指该列所包含的不重复的值和数据表中总行数(T)的比值，它的比值在1到1/T之间。</p>
+
+<p>选择度越大，越适合建索引。因为对于要查找这个列上的一个值的行，通过索引可以过滤掉大部分数据行，剩下的符合要求的行数较少，可以快速在数据表中定位这些行。相反，如果列的选择度比较小，通过索引过滤后的行数依然很大，和全表扫描的开销没有明显的改善，甚至会更大(全表扫描带来的是顺序I/O，而通过索引过滤后的扫描可能是随机I/O)</p>
+
+<p>因此，在选择索引列时的首要条件就是候选列的选择度。索引要建立在那些选择度高的索引上，在选择度低的列上尽量避免建索引</p>
+
+<h5 id="toc_51">创建联合索引的选择</h5>
+
+<p>在很多时候，where子句中的过滤条件并不是只针对某一个字段，经常会有多个字段一起作为查询过滤条件存在于where子句中。在这时候，就需要判断是该仅仅为过滤性最好的(选择度最大)的列建立索引，还是在所有过滤条件中所有列上建立组合索引</p>
+
+<p>对于这个问题，需要衡量两种方案各自的优劣。当where子句中的这些字段组成的联合索引过滤性远大于其中过滤性最高的单列，就适合建联合索引。这样就意味着where子句中对应的每个列过滤性都不高，但是这些单列的过滤性乘在一起后过滤性就高了</p>
+
+<p>例如：要从存储着学籍信息的表中查找来自中国，大连的女性学生，使用的SQL的where子句如下：
+where country = ‘china’and city = ‘dalian’ and gender = female；
+country和city的联合（country，city）的选择性会比country和city各自的选择性高，同时因为gender本身的选择性低，将其加入对于提高总体选择性贡献不大，所以在此情境下适合建立（country，city）的联合索引</p>
+
+<p>同时从性能角度讲，MySQL使用联合索引比使用index_merge算法来使用各个单列索引的效率要高，性能要好。因此对于经常一起出现在where子句中的过滤条件组合，优先考虑建立这些条件列的联合索引，而不是为每个单列建立索引。</p>
+
+<h5 id="toc_52">通过索引列属性的前缀控制索引的长度</h5>
+
+<p>索引占用的空间越小，对于MySQL获得高性能越有益。不管是什么类型的索引，在查询中使用都是需要从磁盘中加载到内存中去的，无论是MyISAM对应的key cache，还是InnoDB对应的buffer pool</p>
+
+<p>这些受到程序自身和硬件条件限制都是有大小限制的，如果索引大小比较大的话，会造成这些存放索引的内存区域无法存下整个索引数据，根据LRU算法频繁地淘汰索引，加载新的索引进去，这就造成比较大的I/O开销</p>
+
+<p>如果要建索引的列是很长的字符串的话，它会使索引变大。如果大小超过限制的话，可以考虑建前缀索引，即只索引数据列中存储的数据的前几个字符，而不是全部的值，这样可以有效地减小索引的大小</p>
+
+<p>当然这样做的前提是保证索引的选择性。在选择列上要索引的字符长度时，考虑选择性不能只看平均值，还要考虑最坏情况下的选择性。因为使用前缀索引而索引的字符数不足的话，容易造成数据分布不均匀。如果这种情况比较极端，可能会造成索引的作用下降。</p>
+
+<h4 id="toc_53">如何在操作中利用索引</h4>
+
+<h5 id="toc_54">索引与排序操作</h5>
+
+<p>MySQL有两种产生排序结果的方式：使用文件排序(filesort)，或者使用扫描有序的索引。explain的输出中type列的值为“index”，这说明MySQL会扫描索引。</p>
+
+<p>MySQL能为排序和查找行使用同样的索引。如果可能，按照这样一举两得的方式设计索引是个好主意。按照索引对结果进行排序，只有当order by子句中的顺序和索引最左前缀顺序完全一致，并且所有列排序的方向(升序或降序)一样才可以。</p>
+
+<p>order by无需定义索引的最左前缀的一种情况是索引中其它前导列在where子句中为常量。如果查询联接了多个表，只有在order by子句的所有列引用的是第一个表才可以</p>
+
+<h5 id="toc_55">索引与分组操作</h5>
+
+<p>group by实际上也同样需要进行排序操作，而且与order by相比，group by主要只是多了排序之后的分组操作。当然，如果在分组时还是用了其他一些聚合函数，还需要一些聚合函数的计算。所以在group by的实现过程中，与order by一样可以使用索引。同时使用索引带来的性能提升是巨大的。</p>
+
+<p>在MySQL中group by使用索引的方式有两种</p>
+
+<ul>
+<li>松散(loose)索引扫描</li>
+<li>紧凑索引扫描</li>
+</ul>
+
+<p>松散索引扫描实现group by是指MySQL完全利用索引扫描来实现group by时，并不需要扫描所有满足条件的索引键即可完成操作，得出结果。如果MySQL使用了这种方式，则在explain的extra行会出现“using index for group-by”。要利用到松散索引扫描实现group by，需要至少满足以下几个条件</p>
+
+<ul>
+<li>group by条件列必须处在同一个索引的最左连续位置</li>
+<li>在使用group by同时，只能使用max和min这两个聚合函数</li>
+<li>如果引用到了该索引中group by条之外的列条件，它就必须以常量形式出现</li>
+</ul>
+
+<p>紧凑索引扫描实现group by是指MySQL需要在扫描索引时，读取所有满足条件的索引键值，然后再根据读取到的数据来完成group by操作，已得到相应的结果。这时的执行计划中就不会出现“using index for group-by”。使用这种索引扫描方式要满足的条件是：group by条件列必须是索引中的列，同时索引中位于该条件列左边的列必须以常数的形式出现在where子句中</p>
+
+<p>除了上述两种使用索引扫描来完成group by外，还可以使用临时表加filesort实现。但是这种方式带来的性能开销比较大，一般也比较费时。所以group by最好实现方式是松散索引扫描，其次是紧凑索引扫描，最后是使用临时表和filesort</p>
+
+<h5 id="toc_56">索引与求distinct查询</h5>
+
+<p>distinct实际上和group by操作非常相似，只是在group by之后的每组中只取其中一条记录而已。所以，distinct的实现方式和group by也基本相同。</p>
+
+<p>同样通过松散索引扫描或者紧凑索引扫描的方式实现要优于使用临时表实现。但在使用临时表时，MySQL仅是使用临时表缓存数据，而不需要进行排序，也就省了filesort操作</p>
+
+<h5 id="toc_57">索引与limit子句查询</h5>
+
+<p>含有limit子句的查询往往同时含有order by子句(如果没有order by子句则优化方法和普通查询一样)。这样的查询最好在排序时使用索引扫描进行排序。否则即使limit子句中只取排序后起始部分很少的数据都会引起MySQL取出全部符合条件的数据进行排序。</p>
+
+<p>如果使用索引扫描的话，则不需要对所有数据排序，只需扫描索引取出满足limit限制的数据即可。
+同时对于limit子句中的大偏移量的offset，比如limit 10000,20，它就会产生10020行数据，并且丢掉前10000行。这个操作的代价太大。</p>
+
+<p>一个提高效率的简单技巧是在覆盖索引上进行偏移，而不是对全行数据进行偏移。也可以将从覆盖索引上提取出来的数据和全表数据进行连接，然后取得需要的数据
+。如: select id from t where id &gt; 10000 order by id desc limit 20</p>
+
+<h5 id="toc_58">索引与连接操作</h5>
+
+<p>在MySQL中，只有一种连接join算法即nested loop join。该算法就是通过驱动表的结果集作为循环的基础数据，然后将该结果集中的数据作为过滤条件一条条地到下一个表中查询数据，最后合并结果。所以在通过结果集中的数据作为过滤条件到下一个表中地数据时，最好是通过索引，而不是扫表。因为如果结果集中的数据比较多，要是每次都通过扫描来定位的话，造成的开销和对MySQL的压力是巨大的。因此，最好在被驱动表的连接列上建立索引，并且使MySQL在连接过程中使用索引。</p>
+
+<h5 id="toc_59">索引与隔离列</h5>
+
+<p>如果在查询中没有隔离索引的列，MySQL通常不会使用索引。“隔离”列意味着它不是表达式的一部分，也没有位于函数中。
+例如，下面的查询不能使用actor_id上的索引</p>
+
+<ul>
+<li>select account_id from account where account_id+1=5</li>
+</ul>
+
+<p>虽然能轻易地看出where子句中的actor_id等于4，但是MySQL却不会求解方程。应主动去简化where子句，把被索引的列单独放在比较运算符的一边</p>
+
+<p>另外一种常见的问题</p>
+
+<ul>
+<li>select expenditure from consume where to_days(current_date)-to_days(consume_time) &lt;=10</li>
+</ul>
+
+<p>这个查询将会查找date_col值离今天不超过10的所有行，但是它不会使用索引，因为使用了to_days()函数。一种比较好的方式：</p>
+
+<ul>
+<li>select expenditure from consume where consume_time&gt;= date_sub(current_date,interval 10 day)</li>
+</ul>
+
+<p>这个查询就可以使用索引，但是还可以改进。使用current_date将会阻止查询缓存把结果缓存起来，可以使用常量替换掉current_date的值：
+select expenditure from consume where consume_time&gt;= date_sub(&#39;2010-12-12&#39;,interval 10 day);</p>
+
+<h4 id="toc_60">索引创建的建议</h4>
+
+<h5 id="toc_61">对联合索引中包含属性列的选择</h5>
+
+<p>对于where子句中过滤条件涉及的属性列大致相同的一系列SQL建立共同的索引。如果共同涉及的属性列是多个的话，则应建立联合索引。在确定联合索引应该包含这些共同涉及的属性列中的哪些时，应该考察这些WHERE子句对于涉及这些列上的过滤条件的形式。</p>
+
+<p>对于那些是范围条件对应的列，由于B-Tree索引本身的限制，只能选取其中一个选择度比较高的列进入联合索引。而对于那些等值条件对应的列，原则上都可以进入联合索引，但是需要综合考虑联合索引最后的大小和进入索引的列的选择度</p>
+
+<p>如果属性列的选择度非常低的话，把它放入索引对于联合索引的选择度贡献比较小，但是会增大索引大小，引起其它开销。所以不要把这样的列加入到索引中去。如性别的选择性较低，加入联合索引对于提高联合索引的选择性没有太大帮助，但却增加了联合索引的大小</p>
+
+<h5 id="toc_62">正确创建联合索引中各列的顺序</h5>
+
+<p>对于MySQL普遍使用的B-Tree索引，索引列的顺序对于SQL使用该索引至关重要。如果索引中列的顺序不合理，在使用过程中往往会使该索引无法被使用或者通过该索引得到的过滤能力大大减弱</p>
+
+<p>首先由于B-Tree索引的数据结构限制，只有当SQL的where子句使用索引的最左前缀的时候，索引才能被使用、发挥作用。所以在创建索引、决定索引的顺序时，应提取希望使用该索引SQL的where子句中的过滤条件，提炼出其中的最常出现的条件和其对应的属性列。</p>
+
+<p>按照这些列的选择度由高到低排列这些属性列，按照这个顺序创建这个索引。同时相关SQL的where子句中出现的过滤条件顺序，以尽量让这些SQL可以使用建立的索引的最左前缀</p>
+
+<p>对于联合索引中包含的属性列中，有一列对应在相关SQL的where子句的过滤条件是以范围条件出现，而索引中其他属性列是以等于条件出现，则应该把这些等值条件对应的列放在索引的前面，把范围条件对应的列放在索引的最后。</p>
+
+<p>select account_id from consume where account_payee =72478814 and expenditure&gt;1.00;
+ 为上述SQL创建对应的联合索引时：如果创建索引(expenditure,account_payee)，由于expenditure列上是范围条件，所以索引(expenditure,account_payee)无法使用完全(只能使用索引中的expenditure部分)；如创建索引(account_payee, expenditure)，SQL则可以完全使用此索引。所以针对上述SQL应该创建联合索引(account_payee, expenditure)。</p>
+
+<h5 id="toc_63">避免重复索引</h5>
+
+<p>MySQL允许你在同一列上创建多个索引，它不会注意到你的错误，也不会为错误提供保护。MySQL不得不单独维护每一个索引，并且查询优化器在优化查询的时候会逐个考虑它们，这会严重影响性能。重复索引是类型相同，以同样的顺序在同样的列上创建的索引。应该避免创建重复索引，并且在发现它时把它移除掉。</p>
+
+<p>有时会在不经意间创建重复索引。例如下面的代码：
+create table test(
+ id int not null primary key，
+ unique(id)，
+ index(id)
+)；
+对于id列，首先它是primary key，同时unique(id)使MySQL自动为id创建了名为id的索引，最后index(id)，现在给id列创建了三个索引</p>
+
+<h5 id="toc_64">避免多余索引</h5>
+
+<p>多余索引和重复索引不同。例如列(A，B)上有索引，那么另外一个索引(A)就是多余的。也就是说(A，B)上的索引能被当成索引(A)(这种多余只适合B-Tree索引)</p>
+
+<p>多余索引通常发生在向表添加索引的时候，例如，有人也许会在(A,B)上添加索引，而不是对索引(A)进行扩展。
+对于B-Tree类型索引，有单列索引对应的属性列出现在了某个联合索引的第1位置上，那么这个单列索引可能是多余的。</p>
+
+<p>如果某一索引是主键的超集，那么这个索引除非有特殊理由(如希望使用覆盖索引)，否则也是多余索引。因为主键是唯一索引，过滤能力很强，和它建立联合索引意义不大。</p>
+
+<p>在大部分情况下，多余索引都是不好的，为了避免它，应该扩展已有索引，而不是添加新的索引。但是，还有一些情况出于性能考虑需要多余索引。使用多余索引的主要原因是扩展已有索引的时候，它会变得很大</p>
+
+<h5 id="toc_65">使用覆盖索引</h5>
+
+<p>索引是找到行的高效方式，但是MySQL也能使用索引来接收数据，这样就可以不用读取行数据。包含所有满足查询需要的数据的索引叫覆盖索引。覆盖索引和任何一种索引都不一样。覆盖索引必须保存它包含的列的数据。MySQL只能使用B-Tree索引来覆盖查询。</p>
+
+<p>在SQL执行中要使用覆盖索引的话，需要相应的索引包含SQL中where子句中涉及的列都在索引中且满足最左前缀，同时SQL的返回列也必须在索引中。同是where子句中的过滤条件中不能包含like等操作符和函数。MySQL使用了覆盖索引，会在explain输出中出现“using index”字样</p>
+
+<h4 id="toc_66">索引对插入、更新的影响和避免</h4>
+
+<p>索引是独立于基础数据之外的一部分数据。假设在table t中的column c创建了索引idx_t_c，那么任何更新column c的操作包括插入insert，update，MySQL在更新表中column c的同时，都必须更新column c上的索引idx_t_c数据，调整因为更新带来键值变化的索引信息。而如果没有对column c建立索引，则仅仅是更新表中column c的信息就可以了。这样因调整索引带来的资源消耗是更新带来的I/O量和调整索引所致的计算量。</p>
+
+<p>因此，<em><strong>在更新非常频繁地字段不适合创建索引</strong></em></p>
+
+<h2 id="toc_67">SQL编写规范及其优化</h2>
+
+<h3 id="toc_68">数据定义语句语法</h3>
+
+<h4 id="toc_69">有关database的语法</h4>
+
+<p>使用create database语句，可以创建一个新的数据库。在这个过程中，可以指定默认的字符集和默认的字符比较方法。</p>
+
+<p><code>&lt;create database statement&gt; = create database [if not exists] &lt;database name&gt; [&lt;database option&gt;…] 
+&lt;database option&gt; = [default] character set &lt;character set name&gt; | [default] collate &lt;collate name&gt;
+</code></p>
+
+<p>同时可以使用一条alter database语句来修改已有的默认字符集和字符比较方法。这些新的默认设置只适用于在更新以后创建的表和列。</p>
+
+<p><code>
+&lt;alter database statement&gt; = alter database &lt;database name&gt; [&lt;database option&gt;…] 
+&lt;database option&gt; = [default] character set &lt;character set name&gt; | [default] collate &lt;collate name&gt;
+</code></p>
+
+<p>drop database语句会立刻删除整个数据库。该数据库的所有表也将永久删除，因此要特别小心使用该语句。</p>
+
+<p><code>&lt;drop database statement&gt; = drop database [if not exists] &lt;database name&gt;
+</code></p>
+
+<h4 id="toc_70">有关table的语法</h4>
+
+<h5 id="toc_71">create table相关语法</h5>
+
+<div><pre><code class="language-none">&lt;create table statement&gt; = create [temporary] table [if not exists] &lt;table specification&gt; &lt;table structure&gt; [&lt;table option&gt;…]
+&lt;table specification&gt; = [&lt;database name&gt;.] &lt;table name&gt;
+&lt;table structure&gt; = &lt;table schema&gt;
+&lt;table schema&gt; = (&lt;table element&gt;[,&lt;table element&gt;]…)
+&lt;table element&gt; = &lt;column definition&gt; | &lt;table integrity constraint &gt; | &lt;index definition&gt;
+&lt; column definition&gt; = &lt;column name&gt; &lt;data type&gt; [&lt;null specification&gt;][&lt;column integrity constraint&gt;]
+&lt;null specification&gt; = [not] null
+&lt;column integrity constraint&gt; = primary key | unique [key] | &lt;check integrity constraint&gt;
+&lt;table integrity constraint&gt; = &lt;primary key&gt; | &lt;alternate key&gt; | &lt;foreign key&gt; | &lt;check integrity constraint&gt;
+&lt;table option&gt; = engine = &lt;engine name&gt; | type = &lt;engine name&gt; | union (&lt;table name&gt; [,&lt;table name&gt;]) | insert_method = {no | first | last} | auto_increment = &lt;whole number&gt; | max_rows = &lt;whole number&gt; | min_rows = &lt;whole number&gt; | [default] character set {&lt;name&gt; | default} | [default] collate {&lt;name&gt; | default} | data directory = &lt;directory&gt; | index directory = &lt;directory&gt; | check_sum = {0|1} | delay_key_write = {0|1} | pack_keys = {0|1|default} | password = &lt;&gt; | raid_type = {1 | striped | raid0} | raid_chunks = &lt;whole number&gt;| raid_chunksize = &lt;whole number&gt; | row_format = {default | dynamic| fixed | comperssed}</code></pre></div>
+
+<h5 id="toc_72">create table中完整性约束</h5>
+
+<p>完整性约束是一个数据库的内容必须随时遵守的规则；它们描述了对数据库的哪一次更新是允许的。如果定义了完整性约束，MySQL会负责数据完整性。每次更新后，MySQL都会测试新的数据库内容是否符合相关的完整性约束。</p>
+
+<p>MySQL中的完整性约束主要包括：主键，候选键，外键，参照动作，check完整性约束。</p>
+
+<p>主键就是表中的一列或多个列的组合，它们的值总是唯一的。构成一个主键的一部分的列的值不允许为空。可以用两种方式来定义主键：作为列或这表的完整性约束。</p>
+
+<p>候选键像一个主键一样，是一个表的一列或一组列，它们的值在任何时候都是唯一的。候选键是主键的候选键(没有被选作主键)。一个表可以有多个候选键，但是只能有一个主键。</p>
+
+<p>外键定义于其中的表叫作参照表，外键所指向的表叫作被参照表。在定义这种参照性约束后，MySQL会确保插入到外键中的每一个非空值都是已经在被参照表中作为主键出现。外键约束包括三部分
+* 第一部分表示哪个列是外键
+* 第二部分指定外键参照的表和列
+* 第三部分参照动作</p>
+
+<p>当指定一个外键的时候：
+* 被参照表必须已经用一条create table语句创建了，或者必须是当前正在创建的表。在后一种情况下，参照表和被参照表是同一表
+* 必须为被参照表定义主键
+* 必须在被参照表的表明后面指定列名(或者列名的组合)。这个列(或者列的组合)必须是这个表的主键
+* 外键中的列的数目必须和被参照表的主键中的列的数目相同
+* 外键中列的数据类型必须和被参照表的主键中列的数据类型对应相等</p>
+
+<h3 id="toc_73">select语句语法及其优化</h3>
+
+<h4 id="toc_74">select语法规范介绍</h4>
+
+<h5 id="toc_75">select子句的语法及相关聚合函数</h5>
+
+<p>select子句作用是选取所需的列，它的结果形成了表的一个竖向子集合。select子句中可以包含有相关的聚合函数及一定的计算表达式等。下面是select子句语法的定义</p>
+
+<div><pre><code class="language-none">&lt;select clause&gt; = select &lt;select option&gt; … &lt;select element list&gt;
+&lt;select option&gt; = distinct | distinctrow | all | high_priority | sql_buffer_result | sql_cahce | sql_no_cache | sql_clac_found_rows | sql_small_result | sql_big_result | straight_join
+&lt;select element list&gt; = &lt;select element&gt; [,&lt;select element&gt; …]
+&lt;select element&gt; = &lt;column expression&gt; | &lt;table specification&gt;.&lt;column expression&gt;</code></pre></div>
+
+<p>select 子句中可以指定一个星号(*)的子句。这个星号是返回from子句中提取到的每行所有列的一种简单表达式。</p>
+
+<p>select子句中可以包含一个或多个表达式，这些一个表达式可以是常量值，一个计算(该计算可以包含表中的列)或者一个聚合函数(函数的输入可以是表中的列)</p>
+
+<p>select子句可以使用distinct移除重复的行。当在select子句中的列名、表达式前面加上关键字distinct时，MySQL会从中间结果中移除重复的行。在<select option>中还可以使用sql<em>no</em>cache等hint相关的关键字。</p>
+
+<p>select子句中的表达式可以包含聚合函数
+* count:计数
+* min:最小
+* max:最大
+* sum:求和
+* avg:平均
+* stddev:标准方差
+* variance:方差
+* bit<em>and:位与
+* bit</em>or:位或
+* bit_xor:位异或</p>
+
+<h5 id="toc_76">from子句语法</h5>
+
+<p>在from子句中，指定了表达式中的结果从哪个表中获取和将要查询的表。这是通过表引用来完成的。</p>
+
+<p>一个表引用由一个表指定组成，表指定后面可能还跟着一个假名。</p>
+
+<div><pre><code class="language-none">from clause = from &lt;table reference&gt; [,&lt;table reference&gt;]
+&lt;table reference&gt; = &lt;table specification&gt; [[as] &lt;pseudonym&gt;]
+&lt;table specification&gt; = [&lt;database name&gt;.]&lt;table name&gt;
+&lt;pseudonym&gt; = &lt;name&gt;</code></pre></div>
+
+<p>表指定通常由一个表的名字组成，但是也可以是指定视图的名字。from子句可以包含一个或多个表指定。</p>
+
+<p>同时每张表都存储在相应的数据库中，可以使用两种方式引用一个表。第一种方式是使用use语句，第二种方式是显示地扩展表指定，带上表所属的数据库的名字。</p>
+
+<h5 id="toc_77">where子句的用法</h5>
+
+<p>where子句充当一种过滤器，它移除了所有条件不为true(为false或unknow)的行。</p>
+
+<p>where子句的定义</p>
+
+<div><pre><code class="language-none">&lt;where clause&gt; = where &lt;condition&gt;
+&lt;condition&gt; = &lt;predicate&gt; | &lt;predicate&gt; or &lt;predicate&gt; | &lt;predicate&gt; and &lt;predicate&gt; | not &lt;condition&gt;
+&lt;predicate&gt; = &lt;predicate with comparison&gt; | &lt;predicate without comparison&gt; | &lt;predicate with in&gt; | &lt;predicate with between&gt; | &lt;predicate with like&gt; | &lt;predicate with regexp&gt; | &lt;predicate with match&gt; | &lt;predicate with null&gt; | &lt;predicate with exists&gt; | &lt;predicate with any all&gt;</code></pre></div>
+
+<p>上述where子句中包含的条件有：比较运算符；使用and、or和not的条件；带有子查询的比较运算符；带有表达式列表的in运算符；带有子查询的in运算符；between运算符；like运算符；regexp运算符；match运算符；null运算符；any和all运算符；exists运算符。</p>
+
+<h5 id="toc_78">group by, having子句的语法</h5>
+
+<p>group by子句根据行的相似性对它们分组。通过把聚合函数(例如sum和count)添加到带有一个group by子句的一个选择语句块中，数据就可以实现聚合。聚合意味着我们是求一个加和、平均、频次以及子和，而不是单个的值。</p>
+
+<div><pre><code class="language-none">&lt;group by clause&gt; = group by &lt;group by specification list&gt; [with rollup]
+&lt;group by specification list&gt; = &lt;group by specification&gt; [,&lt;group by specification&gt;]…
+&lt;group by specification&gt; = &lt;group by specification&gt; [&lt;sort direction&gt;]
+&lt;group by specification&gt; = &lt;column expression&gt;
+&lt;sort direction&gt; = asc | desc</code></pre></div>
+
+<p>一个选择语句块的having子句的目的和where子句类似。不同之处在于，where子句用来在from子句处理之后选择一行，而having子句用来在group by子句执行以后选择一组。一个having子句可以单独使用，而不使用group by子句。</p>
+
+<div><pre><code class="language-none">&lt;having clause&gt; = having &lt;condition&gt;</code></pre></div>
+
+<p>group by子句对from子句的结果中行分组。having子句能够根据它们特定的组属性来选择(带有行的)组。having子句中的条件看上去很像是where子句中的一个正常的条件。尽管如此，还是存在一个区别：</p>
+
+<ul>
+<li>having子句中的条件中的表达式可以包含一个聚合函数，而where子句的条件的表达式则不可以。</li>
+</ul>
+
+<p>having子句中的所有列指定必须出现在一个聚合函数中，或者出现在group by子句指定的列的列表中。因为一个聚合函数总是每组由一个值组成。另外，用来对结果进行分组的列指定的结果也总是每组只有一值。下面的SQL是不正确的</p>
+
+<div><pre><code class="language-none">select max(expenditure) from consume where account_id=1 group by account_payee having year(consume_time)&gt;2008;</code></pre></div>
+
+<p>consume_time没有出现在聚合函数中，也没有出现在group by的列表中。可以修改为：</p>
+
+<div><pre><code class="language-none">select max(expenditure) from consume where account_id=1 group by account_payee having min(year(consume_time))&gt;2008;</code></pre></div>
+
+<h5 id="toc_79">order by子句的用法</h5>
+
+<p>在一条select语句的最末尾添加一个order by子句，可以保证最终结果中的行按照一定的顺序排列。</p>
+
+<div><pre><code class="language-none">&lt;order by clause&gt; = order by &lt;sort specification&gt; [,&lt;sort specification&gt;]
+&lt;sort specification&gt; = &lt;column name&gt; [sort direction] | &lt;scalar expression&gt; [sort direction] | &lt;sequence number&gt; [sort direction]
+&lt;sort direction&gt; = asc | desc</code></pre></div>
+
+<p>order by子句可以按照列名排序，这种排序包含一个列指定。除了根据列名排序，排序也可以由标量表达式组成。order by子句中的表达式甚至可以包含子查询(关联子查询也可以)。同时在orderby子句中，可以使用顺序号码来代替有列名或表达式组成的排序。</p>
+
+<ul>
+<li>select expenditure , account<em>payee from consume where account</em>id=1 order by expenditure;</li>
+<li>select expenditure , account<em>payee from consume where account</em>id=1 order by 1;</li>
+</ul>
+
+<p>上述两个SQL是等价的，但是从代码的可读性方面考虑，推荐使用第一种方式。</p>
+
+<h5 id="toc_80">limit子句的用法</h5>
+
+<p>limit子句是一个选择语句块的最后一个子句，它选取了行的一个子集，由此，中间结果中的行数可以再次减少。</p>
+
+<div><pre><code class="language-none">&lt;limit clause&gt; = limit [&lt;fetch offset&gt;, ] &lt;fetch number of rows&gt; | limit &lt;fetch number of rows&gt; [offset &lt;fetch offset&gt; ] 
+&lt;fetch number of rows&gt;, &lt;fetch offset&gt; = &lt;whole number&gt;</code></pre></div>
+
+<h5 id="toc_81">join连接的种类及其语法</h5>
+
+<p>将不同表的数据组合到一个表中就叫做表的联接(join)。在其上执行联接的列叫做联接列(join column)。联接分成隐式联接和显示联接。隐式联接是由from子句中的几个表指定以及where子句中的一个或多个条件构成的，这些条件横跨多个表，都是联接列。对于显示联接就是在from子句中增加join关键字，构成多表联接。定义如下</p>
+
+<div><pre><code class="language-none">&lt;from clause&gt; = from &lt;table reference&gt; [,&lt;table reference&gt;]…
+&lt;table reference&gt; = &lt;table specification&gt; | &lt;join specification&gt;
+&lt;join specification&gt; = &lt;table reference&gt; &lt;join type&gt;&lt;table reference&gt;[&lt;join condition&gt;]
+&lt;join condition&gt; = on &lt;condition&gt; | using &lt;column list&gt;
+&lt;join type&gt; = [inner] join | left [outer] join | right [outer] join | natural [left| right] [outer] join | cross join
+&lt;column list&gt; = (&lt;column name&gt; [,&lt;column name&gt;]…)</code></pre></div>
+
+<p>从上述定义上可以看出显示联接分为内连接，外连接，自然联接和交叉联接。设t1，t2代表两张不同的表，联接的同属性列是c1，c2：</p>
+
+<ol>
+<li>如果要求列t1，t2在c1，c2的交集，则使用内连接。内连接的关键字inner可以省略；</li>
+<li>如果要以c1为基础列，从c2中选取和c1值相等的行与c1对应的行进行联接；对于c1中某值，c2中没有相应的值，则c1此值对应的行联接后对应t2表中的列值以null代替。这种情况下，使用c1左连接c2。右联接定义与左连接对应。外连接的关键字outer可以省略；</li>
+<li>对于多个表的联接，如果联接列的名字相同且只选取了一个联接列，这种情况可以使用自然连接，自然连接省略了联接条件地指定，默认使用几个表共同的属性列作为连接条件；</li>
+<li>在MySQL中，从语法上看，交叉联接和内连接等价</li>
+</ol>
+
+<h4 id="toc_82">select子句的优化方法</h4>
+
+<h5 id="toc_83">去掉select子句的</h5>
+
+<p>在select子句中使用select * 会给MySQL数据库造成比较大的资源开销和性能影响。比如select *会造成覆盖索引(covering index)失效，因为索引极少甚至不可能包含表中所有的属性列；在MySQL使用filesort时，由于select * 中包含blob，text列，而导致filesort使用双路排序算法，从而增加IO和SQL执行时间；select * 本身返回了一些不需要的列，增加了无用的IO，网络传输，CPU等开销</p>
+
+<p>基于select * 的缺点，在写select子句时，应该仔细分析需要返回的属性列，只把需要的属性列加入select子句。对于select *要保持警惕，除非有确实的需求，一般不写这样的select子句。</p>
+
+<h5 id="toc_84">select子句中的聚合函数的优化</h5>
+
+<p>select子句中可以包含count(),min(),max()等聚合函数。而索引和列的可空性常常帮助MySQL优化掉这些聚合函数。比如，为了查找一个位于B树最左边的列的最小值，那么直接找索引的第一行就可以了。如果MySQL使用了这种优化，那么在explain中看到“select tables optimized away”。同样地，没有where子句的count(*)通常也会被一些存储引擎优化掉(比如MyISAM总是保留着表行数的精确值)。</p>
+
+<p>但是对于没有索引直接可用的min()和max()时，一般做不到很好地优化。可以尝试优化掉min()和max()，利用数据的有序性配合limit 1将SQL等价转化。应用场景：</p>
+
+<div><pre><code class="language-none">select min(customer_id)from customer where customer_name= &#39;张三&#39;;</code></pre></div>
+
+<p>假设在customer<em>name上没有索引，所以查询会扫描整个表。从理论上说，如果MySQL扫描主键，它应该在发现第一个匹配之后就立即停止，因为主键是按照升序排列的，这意味着后续的行会有较大的customer</em>id。但是在这个例子中，MySQL会扫描整个表。一个变通的方式就是去掉min()，并且使用limit来改写这个查询，如下</p>
+
+<div><pre><code class="language-none">select customer_id from customer use index(primary) where customer_name =&#39;张三&#39; limit 1;</code></pre></div>
+
+<p>这个通用策略在MySQL试图扫描超过需要的行时能很好地工作。</p>
+
+<h5 id="toc_85">select子句中加入控制结构避免重复实现优化</h5>
+
+<p>访问同一张表的连续几个查询应该引起注意，即使它们嵌在if…then…else结构中，也是如此。看下面的应用场景：它包含了两个查询，但只引用到了一张表。</p>
+
+<div><pre><code class="language-none">select count(*) from consume where account_id= 6111 and account_payee= 51906734;
+select count(*) from consume where account_id= 6111 and account_payee= 95161305;</code></pre></div>
+
+<p>这两个SQL访问同一张表(consume)，扫描同一个索引(index<em>accountid</em>expenditure_consumetime)两次。这些开销属于重复开销。可以使用汇总技术，不用依次检查不同的条件了，一遍就能收集到多个结果，然后再测试这些结果，而不需要在访问数据库。应该汇总技术改写合并上述两个SQL得到新的SQL</p>
+
+<div><pre><code class="language-none">select count(case account_payee when &#39;51906734&#39; then 1 else 0 end) as p1_count, count(case account_payee when &#39;95161305&#39; then 1 else 0 end) as p2_count from consume where account_id=6111;</code></pre></div>
+
+<p>SQL只需要扫描索引(index<em>accountid</em>expenditure_consumetime)一次及表(consume)就能获得结果，节省了开销</p>
+
+<p><em><strong>注意</strong></em>: 这种方式优化了性能，但是损害了代码的可读性，因此谨慎或不建议使用</p>
+
+<h4 id="toc_86">from子句的优化方法</h4>
+
+<h5 id="toc_87">去掉from子句中未涉及的table及非必要的联接</h5>
+
+<p>在SQL时，应该检查一下在from子句中出现的那些表的作用。这其中主要会出现3种类型的表：</p>
+
+<ol>
+<li>从中返回数据的表，其字段可能用于也可能没有用于where子句的过滤条件中；</li>
+<li>该表中没有要返回的数据，但在where子句中的条件使用了该表的的列；</li>
+<li>仅作为另两种表之间的“粘合剂”而出现的表，使SQL可以通过表连接将那些1)，2)类型的表连在一起。</li>
+<li>既没有从该表中返回数据，也没有过滤条件涉及该表，同时该表也没有参加联接。</li>
+</ol>
+
+<p>对于第4)类型的表，属于from子句中整个SQL未涉及的表，可以从from子句中去掉。</p>
+
+<p>对于第3)类型的表，举例分析：表A联接表B，联接列是ab ，同时表B联接表C。其中表B是第3)类型的表。需要分析
+* A表中的ab列是否可以为空值：如果可以空值，则A和B的联接对最后的结果集是有贡献的，不能去掉表B及A与B的联接；
+* 反之，不可以为空，如果表A可以直接联接表C的话，可以去掉表B，表A直接联接表C。</p>
+
+<p>上述结论是基于分析：空值的值是未知的，不能说它等于任何东西，两个空值也不相等。对于表A中的列ab可以为空值的情况，如果去掉了表B及表A与它的联接，那么表A中那些其它属性列的值符合过滤条件，但ab列对应值为空值的记录有可能进入最后的结果集。因此在这种情况，去掉表B及相关联接，可能改变结果集。</p>
+
+<div><pre><code class="language-none">select a.account_number from consume c, cust_acct b,account a where a.account_id=b.account_id and b.account_id=c.account_id and c.expenditure&gt;1.00;</code></pre></div>
+
+<p>分析SQL中表c的account_id不可以为空值，所以可以去掉表b及其相关的联接，改写成</p>
+
+<div><pre><code class="language-none">select a.account_number from consume c,account a where a.account_id=c.account_id and c.expenditure&gt;1.00;</code></pre></div>
+
+<h4 id="toc_88">where子句的优化方法</h4>
+
+<h5 id="toc_89">index和full table scan的权衡</h5>
+
+<p>MySQL获取获取所需要的数据表中数据的主要方式有两种：</p>
+
+<ol>
+<li>通过索引获得该数据所在行的位置后取得数据(index)；</li>
+<li>通过逐行扫描数据表中的数据行来过滤出所需要的数据(full table scan)</li>
+</ol>
+
+<p>这两种数据获取方式各有利弊。</p>
+
+<p><em><strong>通过索引获取数据方式的利</strong></em>：
+1. 可以通过索引迅速找到需要的数据在数据表中存放的位置，迅速定位。这种方式在通过索引定位获得的数据行数不多的情况下，效率高；
+2. 通常情况下，索引数据和数据表相比较小，因此容易被缓存。</p>
+
+<p>通过索引获取数据的弊：
+* 如果通过索引获得的数据行数比较多，因为索引中的数据存放是有序的，而这种顺序如果和数据表中存放这些数据的顺序不一致，则在索引获得数据位置后从数据表中取数据会引起大量的随机读，这对MySQL的性能影响比较大。</p>
+
+<p>通过扫描数据表获得所需数据方式的利：
+1. 扫描数据表时，是按照数据表中数据存放位置顺序扫描，这是顺序读操作。现在的硬件设备对顺序读性能还是不错的；
+2. 同时对于现在的硬件设备和文件系统，去读取某个block数据时，往往会将该block临近的其他几个block数据一起读到内存中，然后通过virtual I/O获取该block。这种模式对于顺序扫表操作比较有利。</p>
+
+<p>通过扫描数据表获得所需数据方式的弊：
+* 如果数据表中的数据行数比较多，则扫表一次，需要耗费比较多的CPU时间和多次的IO操作。</p>
+
+<p>了解了通过索引获取数据(index)和扫表获取数据(full table scan)两种方式各自的利弊后，在实际情况中如何取舍，需要考虑以下因素：
+1.  数据表中的数据是否按照索引顺序存放，如InnoDB采用聚簇索引来存放数据(按照primary key顺序来存放数据)。这种情况下，通过索引获得的数据位置信息的顺序和数据存放顺序一致，因此不会引起大量的随机读。优先考虑使用这个索引；
+2.  考虑通过能利用索引过滤余下的数据行数，如果过滤后余下行数依然很大，那意味着还需要大量的IO从数据表中获得需要的数据。如果是随机IO，对MySQL的影响就更大了。而相比之下，顺序扫表，因为硬件和文件系统的特点(一次cache多个block)的特点，而变得有优势。
+3.  要考虑索引文件的大小。如果索引文件太大的话，无法在MySQL的cache中缓存下，则从索引中获得数据位置也会引起大量的IO。</p>
+
+<p>如select account<em>id from cust</em>acct where customer<em>id=1;如果customer</em>id=1条件对应的account<em>id太多，从执行时间上看不使用索引index</em>customer<em>id而使用顺序扫表，效果更好；相反对于customer</em>id=1，使用索引index<em>customer</em>id效果更好。</p>
+
+<h5 id="toc_90">where子句中限制条件的排列与index的命中</h5>
+
+<p>因为MySQL中的MyISAM，InnoDB等引擎使用的索引主要都是B-Tree数据类型，所以对where子句中的限制条件的排列顺序会有一些限制。这些限制包括：</p>
+
+<ol>
+<li>where子句中限制条件排列最好为对应索引的最左前缀；</li>
+<li>where子句中的range(范围)条件后的限制条件无法使用索引(即使这些条件对应的列在索引中)。</li>
+</ol>
+
+<p>对于1)MySQL 5.0以上的MySQL优化器可以自己调整where子句中限制条件的顺序以使用对应的索引。但是这个过程本身会增加优化器的压力，尤其是where子句中的限制条件和对应索引包含列较多时。所以建议在写SQL的where子句中考虑打算使用的索引中列的顺序，相应地调整where子句中限制条件的顺序，以满足最左前缀的限制。</p>
+
+<p>对于2)可以考虑同时调整索引中列的顺序及where子句中限制条件的顺序：将range(范围)限制条件调整到where子句的最后(最右)部分；将range条件对应的列调整到索引中列顺序的最后(最右)部。</p>
+
+<div><pre><code class="language-none">select account_id from consume where expenditure&gt;1.00 and account_payee =72478814;</code></pre></div>
+
+<p>如上语句，expenditure&gt;1.00是一个范围限制条件，可以调整其至account<em>payee条件之后。同时设计索引index</em>accountpayee<em>expenditure时考虑到这个问题，索引中列顺序为(account</em>payee,expenditure)。</p>
+
+<h5 id="toc_91">range限制条件的优化(in与&gt;,&lt;在index命中上的区别等)</h5>
+
+<p>在SQL中经常会出现多个range(范围)限制条件。这里指的范围限制条件包括&gt;,&lt;,between等。这些范围限制条件会对相应的索引使用造成影响。正常情况下，即使将这些范围条件调到where子句中的最后(最右)部，第一个范围限制条件后的范围条件对应的索引列也都无法在索引中同时被使用。</p>
+
+<div><pre><code class="language-none">select account_id from consume where account_payee between 51906734 and 51907000 and expenditure&gt;0.00;</code></pre></div>
+
+<p>因为account<em>payee between 51906734 and 51907000这个条件，得到的执行计划中只能使用索引index</em>accountpayee<em>expenditure中的account</em>payee列，而无法使用expenditure列。</p>
+
+<p>在SQL中出现范围限制条件后，可以考虑这个范围条件对应到数据时，包含的值是否是有限个(个数不是太多)。如果存在这种特性，可以将范围条件转换为多个等值条件in()。MySQL对于in()条件处理和等值条件一样，不会影响索引中其他列(右边列)的使用。针对上述应用场景，可以改为in()</p>
+
+<div><pre><code class="language-none">select account_id from consume where account_payee in (51907000, 51906734, 51906740) and expenditure&gt;0.00;</code></pre></div>
+
+<p>经过改写的SQL就可以使用索引index<em>accountpayee</em>expenditure中包含的全部列信息</p>
+
+<h5 id="toc_92">in减轻optimizer MySQL优化器的压力</h5>
+
+<p>一条SQL在MySQL中执行的过程中，会经过SQL解析，优化器制定执行计划，存储引擎查找过滤数据，返回客户端等步骤。其中优化器制定计划阶段有可能成为MySQL的性能瓶颈。</p>
+
+<p>优化器为一条SQL制定执行计划的过程相对比较复杂，其中包括语法树优化，相关开销信息获取，计算和比较等。如果并发比较大，在优化器处堆积了大量的SQL需要优化的话，优化器可能成为性能瓶颈。此时在MySQL中通过查看各个线程的状态(show processlist)，可以看到很多线程处在statistics。</p>
+
+<p>对于这种情况，可以检查一下向MySQL发起的SQL是否是形式一致，只是变量不同。如果是这种情况，可以由应用层在一个时间段(应用可以接受的)内收集这样的请求，使用in()将不同变量的SQL合并成一个SQL发给MySQL。这样MySQL原本需要制定数个执行计划的工作，变成只需要制定一个，减轻了优化器的压力。
+应用场景：</p>
+
+<div><pre><code class="language-none">select expenditure from consume where account_id =1;</code></pre></div>
+
+<p>可以将数个上述的SQL合并成下面的SQL ，从而减轻优化器的压力，并且不会影响到索引的使用。</p>
+
+<div><pre><code class="language-none">select expenditure from consume where account_id in(1,2,3);</code></pre></div>
+
+<h5 id="toc_93">is null限制条件的优化</h5>
+
+<p>对于is null限制条件，MySQL会首先检查is null限制条件涉及的列，如果该列声明时是not null的，则优化器会直接忽略掉该is null限制条件。</p>
+
+<p>对于可以为null的列上的is null限制条件，MySQL同样可以使用该列上的索引。使用索引的条件和等值，range限制使用索引的条件一样。需要注意的是MySQL对于一条SQL只能使用索引来处理一个is null限制条件。比如：</p>
+
+<div><pre><code class="language-none">select * from consume where account_payee is null and expenditure is null;</code></pre></div>
+
+<p>上述SQL只能使用index<em>accountpayee</em>expenditure中account_payee列，索引中expenditure列数据无法使用，这和等值限制不同。</p>
+
+<h5 id="toc_94">index merge优化方法</h5>
+
+<p>index merge(索引合并)方法适用于通过多个等值条件index定位或range。扫描搜索数据行并将结果合并成一个的SQL语句。合并会产生并集，交集等。对于下面的SQL，MySQL优化器会考虑使用index merge算法。</p>
+
+<div><pre><code class="language-none">select id from cust_acct where customer_id=1 or account_id=1;</code></pre></div>
+
+<p>通过explain观察该SQL的执行计划，得到MySQL同时使用了customer<em>id列和account</em>id列上的两个索引。在这种情况下使用index merge会大大加速SQL的执行，可以将上面的SQL与下面的 SQL进行比较。</p>
+
+<div><pre><code class="language-none">select id from cust_acct  ignore index(idx_accountid) where customer_id=1 or account_id=1;</code></pre></div>
+
+<p>同时需要指出如果or条件是在同一属性列上的，MySQL则会考虑使用该属性列上的索引，这和上面所讲的or条件在不同属性列上是不同的。
+<code>
+select id from cust_acct where customer_id=1 or customer_id=2;
+</code>
+index merge优化对于这种or条件的并集操作比较有效。对于and条件的交集操作，其效果不如联合索引。如：
+<code>
+select id from cust_acct where customer_id=1 and account_id=1;
+</code>
+建(customer<em>id,accout</em>id)的联合索引，MySQL使用该联合索引的效果要优于使用index merge的效果。</p>
+
+<p>对于or条件和and条件同时存在的where子句，MySQL优化器会优先使用and子句中的索引，而放弃使用or条件的index merge。如果能确定or条件的index merge优于and子句中的索引，可以使用ignore index(and子句的索引)的hint技术干预MySQL优化器制定的执行计划</p>
+
+<h5 id="toc_95">order by子句的优化</h5>
+
+<p>在MySQL中，order by的实现有如下两种类型：
+1. 通过有序索引直接获得有序的数据，这样不用任何排序操作即可得到满足要求的有序数据；
+2. 须通过MySQL的排序算法将存储引擎返回的数据进行排序后得到有序的数据。
+order by子句场景：</p>
+
+<div><pre><code class="language-none">select consume_time from consume where account_payee=48370945 order by expenditure;
+select account_id from consume where consume_time between &#39;2009-09-07&#39; and &#39;2009-09-10 &#39; order by expenditure;</code></pre></div>
+
+<p>第一个SQL使用索引index<em>accountpayee</em>expenditure。Order by使用索引需要满足一些条件：where子句中涉及的列加order by子句中涉及的列要满足要使用的索引的最左前缀；同时where子句中的条件必须是等值条件。</p>
+
+<p>第二个SQL无法借助索引实现order by，需要通过MySQL本身的排序算法完成order by操作。</p>
+
+<p>利用索引实现数据排序是MySQL中实现结果集排序的最佳方法，可以完全避免因为排序计算带来的资源消耗。所以，在优化SQL中的order by时，尽可能利用已有的索引来避免实际的排序计算，甚至可以增加索引字段，这可以很大幅度地提升order by操作的性能。当然这需要从整体上权衡，不能因此影响其他SQL的性能</p>
+
+<h5 id="toc_96">limit子句优化相关SQL</h5>
+
+<p>在分页等系统中使用limit和offset是很常见的，它们通常也会和order by一起使用。一个比较常见的问题是偏移量很大，比如查询使用了limit 10000,20，它就会产生10020行数据，并且丢掉前面10000行。这个操作代价比较高。</p>
+
+<p>一个提高效率的简单技巧就是在覆盖索引上进行偏移，而不是对全行数据进行偏移。可以将从覆盖索引上提取的数据和全行数据进行联接，然后取得所需的列。这会更有效率。应用场景:</p>
+
+<div><pre><code class="language-none">select * from consume where account_payee=72478814 order by expenditure limit 50,5;
+select * from consume inner join (select account_id from consume where account_payee=72478814 order by expenditure limit 50,5) as lim using(account_id);</code></pre></div>
+
+<p>下面的SQL是上面SQL的优化版本，它使用覆盖索引，避免了整个结果集上进行offset操作。</p>
+
+<h5 id="toc_97">使用covering index优化select语句</h5>
+
+<p>在前面章节已经介绍了覆盖索引，覆盖索引可以使MySQL从索引中获得所需的数据，而不需要再到数据表中去取所需要的数据。通常索引要比数据表小，同时有序。因此使用覆盖索引对提高SQL性能会有很大的帮助。</p>
+
+<p>在MySQL中，覆盖索引的使用要求select子句中涉及的列必须在相应的同一索引中，同时where子句中的限制条件应该符合使用这个索引的要求。比如限制条件要满足索引的最左前缀要求。如果有range条件，order by子句等，都要满足索引对这些条件的限制。对于那些不满足这些条件的SQL，可以通过适当的改造，以使它能使用覆盖索引达到优化的效果。应用场景：</p>
+
+<div><pre><code class="language-none">select account_id from account where account_bank= &#39;icbc.beijing.fengtai&#39; and customer_email=&#39;email8002&#39;;
+select * from account where account_bank= &#39;icbc.beijing.fengtai&#39; and customer_email like &#39;%@baidu.com&#39;;</code></pre></div>
+
+<p>因为account表使用的是InnoDB引擎，所以索引index<em>accountbank</em>customeremail 存储有account<em>id的信息(它是primary key)。第一个SQL可以使用覆盖索引；但是第二个SQL却不能，因为select子句要求返回所有列，超出了索引index</em>accountid<em>expenditure</em>consumetime的范围</p>
+
+<h5 id="toc_98">由返回结果推动反向优化技巧</h5>
+
+<p>在写完SQL后，一定将其在数据库上执行一遍，观察一下输出结果。如果输出结果呈一定的规律性，则可考察一下数据库中相应的数据是否都符合这种规律。如果是的话，则可以重新审视先前的SQL，其中的限制条件等是否可以修改，来避免其中使用函数等复杂的限制条件。这样有助于MySQL指定执行计划时充分使用索引，指定最优的执行计划。同样有助于提升SQL的执行速度。应用场景：</p>
+
+<div><pre><code class="language-none">select account_id from account where substr(account_bank,6,7)= &#39;beijing&#39;;</code></pre></div>
+
+<p>上述SQL由于使用函数substr，则不能使用索引index<em>accountbank。但是通过观察SQL的输出，发现account</em>bank列的数据都是以icbc.开头，进而可以SQL改写如下：</p>
+
+<div><pre><code class="language-none">select account_id from account where account_bank like &#39;icbc.beijing%&#39;;</code></pre></div>
+
+<p>因为限制条件改写成了like &#39;icbc.beijing%&#39;，符合MySQL索引使用规范，该SQL就可以使用索引index_accountbank了。</p>
+
+<h4 id="toc_99">join联接的优化方法</h4>
+
+<h5 id="toc_100">MySQL join的相关算法</h5>
+
+<p>在介绍join语句的优化思路之前，首先要理解在MySQL中是如何实现join的。只要理解了其实现原理，优化就比较简单了。</p>
+
+<p>在MySQL中，只有一种join算法，就是nested loop join，它没有很多其他数据库提供的hash Join，也没有sort merge join。nested loop join实际上就是通过驱动表的结果集作为循环基础数据，然后将该结果集中的数据(联接键对应的值)作为过滤条件一条条地到下一个表中查询数据，最后合并结果。如果还有第三个表参与join，则把前两个表的join结果集作为循环基础数据，再一次通过循环查询条件到第三个表中查询数据，如此往复。
+比如一个表t1，t2，t3的联接，通过explain观察到的执行计划中join的类型(explain中type行的值)是：</p>
+
+<div><pre><code class="language-none">table        join type
+t1           range
+t2           ref
+t3           All</code></pre></div>
+
+<p>则相应的这个联接的算法伪代码如下：
+<code>
+for each row in t1 matching range {
+  for each row in t2 matching reference key {
+    for each row in t3 {
+      if row satisfies join conditions
+      send to client
+    }
+  }
+}
+</code></p>
+
+<h5 id="toc_101">小结果集驱动大结果集</h5>
+
+<p>针对MySQL这种比较简单join算法，只能通过嵌套循环来实现。如果驱动结果集越大，所需循环也就越多，那么被驱动表的访问次数自然也就越多，而且每次访问被驱动表，即使所需的IO很少，循环次数多了，总量也不可能小，而且每次循环都不能避免消耗CPU，所以CPU运算量也会跟着增加。但是不能仅以表的大小来作为驱动表的判断依据，假如小表过滤后所剩下的结果集比大表过滤得到的结果集还大，结果就会在嵌套循环中带来更多的循环次数。反之，所需要的循环次数就会更小，总体IO量和CPU运算量也会更少。所以，在优化join联接时，最基本的原则是“小结果集驱动大结果集”，通过这个原则来减少循环次数。</p>
+
+<p>如下场景：</p>
+
+<p>通过explain观察MySQL为该SQL制定的执行计划：</p>
+
+<div><pre><code class="language-none">select a.expenditure, b.balance from consume a, account b where a.account_id = b.account_id and a.account_payee=13301087 and b.account_bank=&#39;icbc.beijing.fengtai&#39;;</code></pre></div>
+
+<p>join中选取表consume为驱动表。</p>
+
+<p>如果通过explain观察，发现MySQL在join过程中选取的驱动表不是很合适的话，建议最先通过索引，再通过hint技术straight_join来干预MySQL，使其按照最优的方式选取驱动表，制定最优的执行计划</p>
+
+<h5 id="toc_102">被驱动表的join column最好能命中index</h5>
+
+<p>对于nested loop join算法，内层循环是整个join执行过程中执行次数最多的，如果每次内层循环中执行的操作能节省很少的资源，就能在整个join循环中节约很多的资源。</p>
+
+<p>而被驱动表的join column能使用索引正是基于上述考虑的。只有让被驱动表的join条件字段被索引了，才能保证循环中每次查询都能通过索引迅速定位到所需的行，这样可以减少内层一次循环所消耗的资源；否则只能通过扫表等操作来找到所需要的行。例如</p>
+
+<div><pre><code class="language-none">select a.expenditure, b.balance from consume a, account b where a.account_id = b.account_id and a.account_payee=13301087 and b.account_bank=&#39;icbc.beijing.fengtai&#39;;</code></pre></div>
+
+<p>join过程中被驱动表join条件列account_id是primary key，通过主键索引每次内层循环定位所需的行非常快且开销非常小</p>
+
+<h3 id="toc_103">数据更新语句语法</h3>
+
+<h4 id="toc_104">insert语法，优化tips</h4>
+
+<h5 id="toc_105">insert语法</h5>
+
+<p>insert语句，它的基本含义是往数据库中插入新的数据，其语法主要有三类，分别说明如下：
+第一种
+<code>
+    insert into tbl_name values …
+    insert [low_priority | delayed | high_priority] [ignore]
+    [into] tbl_name [(col_name,...)]
+    {values | value} ({expr | default},...),(...),...
+    [ on duplicate key update  col_name=expr[, col_name=expr] ... ]
+</code>
+首先[low<em>priority | delayed | high</em>priority] [ignore]部分是说明写入操作的优先级，low<em>priority选项表示写操作会被延迟直到所有没有任何对tbl</em>name表的读操作，但是如果指定了这个选项，MyISAM引擎的并发写入就无法生效，即使它原本是可以并发插入的；delayed选项表示插入操作暂时缓存在服务器端被延迟插入，客户端可以立即返回，当表处于空闲状态时，在进行插入操作。但是这个选项在第三类型的insert into … select …和insert … on duplicate key update 语句中无法生效；high_priority选项表明写入时最高优先级，它的状态级别优先于--low-priority-updates，同样它会也让MyISAM引擎的并发写入失效。</p>
+
+<p>特别注意的是，low<em>priority和high</em>priority选项只影响表级锁的存储引擎，如MyISAM、Memory和Merge三种引擎的表。如InnoDB引擎，这几个选项就无法生效。</p>
+
+<p>ignore选项表示将执行insert语句返回的错误当成warning，即可以跳过错误语句，这样可以保证一个线程在批量执行SQL时，其中一个SQL错误不会导致整个处理都退出；而是跳过错误继续执行。这种错误包括duplicate-key的错误等。</p>
+
+<p>接下来那个表名表示被插入的字段和具体的值，特别需要说明的是on duplicate key update选项，如果插入的值与原来主键、unique索引中的键值一样，那么将会执行更新操作，通过返回结果观察，影响的行数(即“affected-rows”)就是2，相对于插入操作影响的行数为1。</p>
+
+<p>例子：我们往customer(customer<em>id(int)、customer</em>name(varchar)、customer<em>contact
+(varchar)、customer</em>phone(varchar))插入一条数据，SQL语句如下：</p>
+
+<div><pre><code class="language-none">insert into customer values (20101213, &#39;g7汇通天下&#39;, &#39;海淀区上地&#39;, &#39;010-52202999&#39;);</code></pre></div>
+
+<p>若插入的数据，其customer<em>id字段是自增的，那么插入时则不能指定customer</em>id字段的值，需要在插入字段列表明确列出，如下所示：</p>
+
+<div><pre><code class="language-none">insert into customer(customer_name, customer_contact, customer_phone) values (&#39;g7汇通天下&#39;, &#39;海淀区上地&#39;,&#39;010-52202999&#39;);</code></pre></div>
+
+<p>若原来可能一个id为20101213的客户，那么不确定的情况下可以采用on duplicate key update，方式如下：</p>
+
+<div><pre><code class="language-none">insert into customer (customer_id, customer_phone ) values (20101213, &#39;010-59926666&#39;) on duplicate key update customer_phone=&#39;010-59926666&#39;;</code></pre></div>
+
+<p>第二种</p>
+
+<div><pre><code class="language-none">insert into tbl_name set col_name=expr...
+insert [low_priority | delayed | high_priority] [ignore]
+    [into] tbl_name
+    set col_name={expr | default}, ...
+    [ on duplicate key update  col_name=expr[, col_name=expr] ... ]</code></pre></div>
+
+<p>这种语法其实与上面的类似，只不过写法不一样，它把字段的指定挪到set后面，表示每个字段的插入值为多少，其它的部分说明与上面的一样。
+例子：针对上面的例子，采用此从句的方法如下：</p>
+
+<div><pre><code class="language-none">insert into customer set customer_name=&#39;g7汇通天下&#39;, customer_contact=&#39;海淀区上地&#39;, customer_phone=&#39;010-52202999&#39;;</code></pre></div>
+
+<p>第三种</p>
+
+<div><pre><code class="language-none">insert into tbl_name select …
+insert [low_priority | high_priority] [ignore]
+ [into] tbl_name [(col_name,...)]
+ select ...
+ [ on duplicate key update  col_name=expr[, col_name=expr] ... ]</code></pre></div>
+
+<p>这种语法与上面的(1)和(2)类似，主要是数据是从已知的另外一个表中获取，如数据转移应用中。</p>
+
+<p>如一个统计表中，有许多统计数据，数据来源于多个数据库和表，很多数据需要使用批量更新方法，(不可能查出所有数据然后一条一条去更新吧)，因此需要使用 insert into table1 select * from table2这样的语句。</p>
+
+<p>同时，由于需要多次更新table，table定义了一个unique key，因此如果第二次运行或者更新第二批数据的时候，会产生error code : 1062 duplicate entry ‘xx-yy’key for &#39;keyname&#39; 错误，自然我们会想到用 on duplicate key 来解除约束，这个时候就需要用到 values 取值函数values 取值函数：values(col<em>name)可以引用被插入的col</em>name的值，注意这个函数只在 insert ... Update 语句中有意义。</p>
+
+<div><pre><code class="language-none">insert into table1 (a, b, c) select a, b, c from table2 on duplicate key update c = values(c);</code></pre></div>
+
+<p>注意 values(c)中的c不需要加任何修饰，table表设有 a,b 联合unique key</p>
+
+<h5 id="toc_106">insert优化tips</h5>
+
+<p>insert插入一条记录花费的时间由以下几个因素决定：连接、发送查询给服务器、解析查询、插入记录、插入索引和关闭连接。</p>
+
+<p>此处没有考虑初始化时打开数据表的开销，因为每次运行查询只会做一次。如果是B-tree索引，随着索引数量的增加，插入记录的速度以logN的比例下降。</p>
+
+<p>可以用以下几种方法来提高插入速度：</p>
+
+<ol>
+<li>如果要在同一个客户端在同一时间内插入很多记录，可以使用insert语句附带有多个values值。这种做法比使用单一值的insert语句快多了(在一些情况下比较快)。如果是往一个非空数据表增加记录，可以调整变量bulk<em>insert</em>buffer_size的值使其更快。</li>
+<li>对实时性要求不高情况下，如要从不用的客户端插入大量记录，使用insert delayed语句也可以提高速度。</li>
+<li>对应MyISAM，可以在select语句正在运行时插入记录，只要表中没有空洞（由删除记录引起）或者打开MySQL相关设置。</li>
+<li>对于MyISAM，在进行大批量插入前可以将索引关闭，等全部插入完毕后再开启索引，进行索引更新。</li>
+<li>想要将一个文本文件加载到数据表中，可以使用load data infile。速度上通常是使用大量insert语句的20倍。</li>
+<li>对于InnoDB的insert，若插入上百万，建议分批进行，批量插入3000~5000后，sleep数秒钟之后进行下一次插入，可以避免同步延迟的累积</li>
+</ol>
+
+<h4 id="toc_107">delete语法，优化tips</h4>
+
+<h5 id="toc_108">delete语法</h5>
+
+<p>delete语法的实际操作步骤以及对MySQL delete语法的实际应用代码的描述如下：
+* 单表语法</p>
+
+<div><pre><code class="language-none">delete [low_priority] [quick] [ignore] from tbl_name  
+[where where_definition]  
+[order by ...]  
+[limit row_count]</code></pre></div>
+
+<ul>
+<li>多表语法</li>
+</ul>
+
+<div><pre><code class="language-none">delete [low_priority] [quick] [ignore]  
+tbl_name[.*] [, tbl_name[.*] ...]  
+from table_references  
+[where where_definition]</code></pre></div>
+
+<p>或：</p>
+
+<div><pre><code class="language-none">delete [low_priority] [quick] [ignore]  
+from tbl_name[.*] [, tbl_name[.*] ...]  
+using table_references  
+[where where_definition] </code></pre></div>
+
+<p>tbl<em>name中有些行满足由where</em>definition给定的条件，那么delete将用于删除这些行，并返回被删除的记录的数目。</p>
+
+<h5 id="toc_109">delete优化</h5>
+
+<p>如果编写的delete语句中没有where子句，则所有的行都被删除。当不想知道被删除的行的数目时，有一个更快的方法，即使用truncate table。</p>
+
+<p>如果删除的行中包括用于auto<em>increment列的最大值，对于MyISAM表或InnoDB表不会被重新用。如果在autocommit模式下使用delete from tbl</em>name(不含where子句)删除表中的所有行，则对于所有的表类型(除InnoDB和MyISAM外)，序列重新编排。对于InnoDB表，此项操作有一些例外。</p>
+
+<p>对于MyISAM和BDB表，可以把auto_increment次级列指定到一个多列关键字中。在这种情况下，从序列的顶端被删除的值被再次使用，甚至对于MyISAM表也如此。delete语句支持以下修饰符：</p>
+
+<p>如果您指定low_priority，则delete的执行被延迟，直到没有其它客户端读取本表时再执行。</p>
+
+<p>对于MyISAM表，如果使用quick关键词，则在删除过程中，存储引擎不会合并索引端结点，这样可以加快部分种类的删除操作的速度。</p>
+
+<p>在删除行的过程中，ignore关键词会使MySQL忽略所有的错误。(在分析阶段遇到的错误会以常规方式处理。)由于使用本选项而被忽略的错误会作为警告返回。</p>
+
+<p>在MyISAM表中，被删除的记录被保留在一个带链接的清单中，后续的insert操作会重新使用旧的记录位置，要想重新使用未使用的空间并减小文件的尺寸，则可以使用optimize table语句或myisamchk应用程序重新编排表。optimize table更简便，但是myisamchk速度更快。</p>
+
+<p>quick修饰符会影响到在删除操作中索引端结点是否合并。当用于被删除的行的索引值被来自后插入的行的相近的索引值代替时，delete quick最为适用。在此情况下，被删除的值留下来的空穴被重新使用。</p>
+
+<p>未充满的索引块跨越某一个范围的索引值，会再次发生新的插入。当被删除的值导致出现未充满的索引块时，delete quick没有作用。在此情况下，使用quick会导致未利用的索引中出现废弃空间</p>
+
+<h5 id="toc_110">关于逻辑删除和物理删除</h5>
+
+<p>由于delete产生的影响较大，因此实际在线上时需要谨慎使用。同时为了在误删数据中，更快的找回数据，因此，在对delete设计时，尽量用一个字段来标志这条记录是否已经被删除</p>
+
+<p>这还会带来一个好处是，如果删除的数据量较大或重复删除，innodb等存储引擎的Page页面空洞会越来越大，当需要做表空间碎片整理时，将会锁表，业务需要暂停很长的时间。如果使用逻辑删除时，可以新建一张新表，将老表的数据自动同步到新表后，在一个临界点点上，锁住表，确认同步完成后，将老表rename备份，最后将新表rename成老表的名字</p>
+
+<p>但是逻辑删除会造成业务开发复杂度增加，在处理新旧数据存在可能冲突。建议将逻辑删除标志字段与所有唯一索引一起建立联合索引，只需在删除时判断冲突处理即可</p>
+
+<h4 id="toc_111">update语法及优化tips</h4>
+
+<h5 id="toc_112">update语法</h5>
+
+<p>更新语句主要也有两类，单表和多表更新：</p>
+
+<ul>
+<li>单表更新语法</li>
+</ul>
+
+<div><pre><code class="language-none">update [low_priority] [ignore]
+tbl_name    
+setcol_name1=expr1[,col_name2=expr2...]    
+[where where_definition]    
+[order by ...]    
+[limit row_count]</code></pre></div>
+
+<ul>
+<li>多表更新语法</li>
+</ul>
+
+<div><pre><code class="language-none">update [low_priority] [ignore]
+table_references
+set col_name1=expr1[,col_name2=expr2...]    
+[where where_definition]</code></pre></div>
+
+<p>update语法可以用新值更新原有表行中的各列。set子句指示要修改哪些列和要给予哪些值。where子句指定应更新哪些行。如果没有where子句，则更新所有的行。如果指定了order by子句，则按照被指定的顺序对行进行更新。limit子句用于给定一个限值，限制可以被更新的行的数目。多表更新的例子: </p>
+
+<div><pre><code class="language-none">update consume a, account b set b. balance=a. expenditure where a.account_id=b.account_id;</code></pre></div>
+
+<p>以上的例子显示出了使用逗号操作符的内部联合，但是多表更新语句可以使用在select语句中允许的任何类型的联合，比如left join。
+update语句支持以下修饰符：
+1. 如果您使用low_priority关键词，则update的执行被延迟了，直到没有其它的客户端从表中读取为止。
+2. 如果您使用ignore关键词，则即使在更新过程中出现错误，更新语句也不会中断。如果出现了重复关键字冲突，则这些行不会被更新。如果列被更新后，新值会导致数据转化错误，则这些行被更新为最接近的合法的值。</p>
+
+<h5 id="toc_113">update优化</h5>
+
+<p>update更新查询的优化同select查询一样，但需要额外的写开销。写的速度依赖更新的数据大小和更新的索引的数量。所以，锁定表，同时做多个更新比一次做一个快得多。</p>
+
+<p>另一个提高更新速度的办法是推迟更新并且把很多次更新放在后面一起做。如果锁表了，那么同时做很多次更新比分别做更新来得快多了。</p>
+
+<p>注意，如果是在 MyISAM 表中使用了动态的记录格式，那么记录被更新为更长之后就可能会被拆分。如果经常做这个，那么偶尔做一次 optimize table 就显得非常重要了</p>
+
+<h4 id="toc_114">replace</h4>
+
+<h5 id="toc_115">replace语法</h5>
+
+<p>replace是MySQL对SQL标准的扩展，它会插入记录，或者删除记录再插入记录。如果replace使用的主键或者唯一索引列的值在表中能够找到，则删除该记录再插入新的记录，否则只是插入。如果表没有主键或者唯一索引，那么只是插入。</p>
+
+<div><pre><code class="language-none">replace [low_priority | delayed]
+[into] tbl_name [(col_name,...)]
+values ({expr | default},...),(...),...</code></pre></div>
+
+<p>或：</p>
+
+<div><pre><code class="language-none">replace [low_priority | delayed]
+[into] tbl_name
+set col_name={expr | default}, ...</code></pre></div>
+
+<p>或：</p>
+
+<div><pre><code class="language-none">replace [low_priority | delayed]
+[into] tbl_name [(col_name,...)]
+select ...</code></pre></div>
+
+<p>replace的运行与insert很相像。只有一点除外，如果表中的一个旧记录与一个用于primary key或一个unique索引的新记录具有相同的值，则在新记录被插入之前，旧记录被删除。</p>
+
+<p>注意，除非表有一个primary key或unique索引，否则，使用一个replace语句没有意义。该语句会与insert相同，因为没有索引被用于确定是否新行复制了其它的行。</p>
+
+<p>当然，我们可能想用新记录的值来覆盖原来的记录值。如果使用传统的做法，必须先使用delete语句删除原先的记录，然后再使用 insert插入新的记录。而在MySQL为我们提供了一种新的解决方案，这就是replace语句。使用replace插入一条记录时，如果不重复， replace就和insert的功能一样，如果有重复记录，replace就使用新记录的值来替换原来的记录值。使用replace的最大好处就是可以将delete和insert合二为一。这样就不必考虑在同时使用delete和insert时添加事务等复杂操作了。在使用replace时，表中必须有唯一索引，而且这个索引所在的字段不能允许空值，否则replace就和insert完全一样的。</p>
+
+<p>在执行replace后，系统返回了所影响的行数，如果返回1，说明在表中并没有重复的记录，如果返回2，说明有一条重复记录，系统自动先调用了 delete删除这条记录，然后再记录用insert来插入这条记录。如果返回的值大于2，那说明有多个唯一索引，有多条记录被删除和插入</p>
+
+<h5 id="toc_116">replace优化tips</h5>
+
+<p>由于replace是先delete再insert的操作，有可能会导致系统的空洞无法得到使用。所以采用先select判断是否存在记录，然后再考虑是否进行insert还是update的方式进行数据的更新可能更好。可以考虑采用insert on duplicate key，replace 和 insert on duplicate key差别在于前者是delete-insert，后者是update</p>
+
+<h4 id="toc_117">truncate</h4>
+
+<h5 id="toc_118">truncate语法</h5>
+
+<div><pre><code class="language-none">truncate tbl_name;</code></pre></div>
+
+<p>truncate tbl_name用于完全清空一个表。从逻辑上说，该语句与用于删除所有行的delete语句等同，但是在有些情况下，两者在使用上有所不同。</p>
+
+<p>对于InnoDB表，如果有需要引用表的外键限制，则truncate table被映射到delete上；否则使用快速删减(取消和重新创建表)。使用truncate table重新设置auto_increment计数器，设置时不考虑是否有外键限制。</p>
+
+<p>对于其它存储引擎，在MySQL中，truncate table与delete from有以下几处不同：</p>
+
+<ol>
+<li>删减操作会取消并重新创建表，这比一行一行的删除行要快很多。</li>
+<li>删减操作不能保证对事务是安全的；在进行事务处理和表锁定的过程中尝试进行删减，会发生错误。</li>
+<li>被删除的行的数目没有被返回。</li>
+<li>只要表定义文件tbl_name.frm是合法的，则可以使用truncate table把表重新创建为一个空表，即使数据或索引文件已经被破坏。</li>
+<li>表管理程序不记得最后被使用的auto_increment值，但是会从头开始计数。即使对于MyISAM和InnoDB也是如此。MyISAM和InnoDB通常不再次使用序列值。</li>
+<li>当被用于带分区的表时，truncate table会保留分区；即，数据和索引文件被取消并重新创建，同时分区定义(.par)文件不受影响</li>
+</ol>
+
+<h5 id="toc_119">truncate优化tips</h5>
+
+<p>truncate和不带where子句的delete，以及drop都会删除表内的数据；</p>
+
+<p>truncate和 delete只删除数据不删除表的结构(定义)；drop语句将删除表的结构被依赖的约束(constrain)，触发器(trigger)，索引(index)；依赖于该表的存储过程/函数将保留，但是变为invalid状态；</p>
+
+<p>delete语句是DML语句，这个操作会放到rollback segement中，事务提交之后才生效，如果有相应的trigger，执行的时候将被触发；truncate，drop是DDL语句，操作立即生效，原数据不放到rollback segment中，不能回滚. 操作不触发trigger；</p>
+
+<p>在执行速度方面，一般来说: drop&gt; truncate &gt; delete；</p>
+
+<p>但是在安全性上，小心使用drop 和truncate，尤其没有备份的时候； </p>
+
+<p>使用上，想删除部分数据行用delete，注意带上where子句，否则回滚段要足够大；想删除表，当然用drop；想保留表而将所有数据删除，如果和事务无关，用truncate即可；如果和事务有关，或者想触发trigger，还是用delete</p>
+
+<h3 id="toc_120">子查询(subquery)</h3>
+
+<p>当一个查询语句嵌套在另一个查询的查询条件之中时，称为子查询。子查询总是写在圆括号中，可以用在使用表达式的任何地方。子查询也称为内部查询或者内部选择，而包含子查询的语句也称为外层查询或外层选择</p>
+
+<p>根据子查询出现的位置：位于select子句中，位于from子句中，位于where条件中的子查询来逐个介绍</p>
+
+<p><em><strong>注意</strong></em>  原则上尽量少用子查询，这会使查询优化器的优化效果有限</p>
+
+<h4 id="toc_121">位于select子句中的子查询</h4>
+
+<p>位于select子句的子查询是指子查询在外层查询的select项。此时子查询返回的值是n行一列的表集合(n&gt;=1)。</p>
+
+<p>应用场景：账号名为&#39;a-001&#39;的客户信息。</p>
+
+<div><pre><code class="language-none">select a.account_id,a.balance,
+(select c.customer_name 
+from customer as c 
+where c. customer_id=ac.customer_id )as cust_name
+from account as a, cust_acct as ac
+where a. account_id=ac.account_id and a. account_id= &#39;a-001&#39;;</code></pre></div>
+
+<p>子查询通过与ac.customer<em>id相等的条件引用了主查询的当前记录。而且该子查询只能返回一条记录，如果没有符合条件的，则结果中的cust</em>name值为空。</p>
+
+<p>优化关注点：对于子查询来说，外层查询返回的每条记录都会需要执行这个子查询。如果返回几百条或者更少记录来说，上面语句的性能应该还不错，但是对于返回几百万，上千万行数据的查询来说，这样做就非常致命了。可以替换为外连接，如下：</p>
+
+<div><pre><code class="language-none">select a.account_id,a.balance,c.customer_id
+from account as a, cust_acct as ac left join customer as c 
+on c.customer_id = ac.customer_id
+where a.account_id=ac.account_id and a.account_id= &#39;a-001&#39;;</code></pre></div>
+
+<p>注意，连接需要是个外连接，这样才能在customer表中无对应记录时得到空值</p>
+
+<h4 id="toc_122">位于from中的子查询</h4>
+
+<p>位于from中的子查询是指子查询落在外层查询的from项。此时子查询返回的值是n行n列的表集合(n&gt;=1)。</p>
+
+<p>应用场景：一次消费超过100元的同时消费是在最近一个月进行的账号信息。</p>
+
+<div><pre><code class="language-none">select consume_gt100.account_id
+from 
+(
+select c2. account_id,c2. consume_time 
+from consume as c2
+where c2. expenditure&gt;100
+) as consume_gt100
+where consume_gt100. consume_time&gt;&#39;2010-11-17&#39;;</code></pre></div>
+
+<p>其中子查询和外层查询没有任何关联。一般情况下，from中的子查询都是可以独立执行的</p>
+
+<h4 id="toc_123">位于where中的子查询</h4>
+
+<p>位于whrere中的子查询是指子查询位于外层查询的where条件中。这类查询通常有三种基本的子查询。</p>
+
+<ol>
+<li>通过使用in引起的范围查询。</li>
+<li>通过由any,some或all修改的比较运算符引入的列表上操作。</li>
+<li>通过exists引入的存在测试。</li>
+</ol>
+
+<p>如上三种子查询与外层查询极可能有关联，也可能无关联。第一种和第二种属于无关联的，可以独立执行；exists一般是和外层查询都是有关联的。</p>
+
+<p>位于where中的子查询暂时有个限制，在带in或者由any,some,all的嵌套子查询中，不能使用limit关键字。但是此限制可通过其他方式来变相实现。</p>
+
+<p>关联子查询和非关联子查询的两个较大的区别如下：</p>
+
+<ol>
+<li>关联子查询在来自外层查询的值每次发生变化就会被触发一次；而非关联子查询却永远只需要触发一次。</li>
+<li>关联子查询的话，是外层查询在驱动执行过程。如果是无关联查询，那么子查询就有可能驱动外层查询</li>
+</ol>
+
+<h5 id="toc_124">带in的嵌套查询</h5>
+
+<p>应用场景：和张三有在同一银行开户的账号的客户信息，并且按照customer_id递减排序，取前10个客户信息。</p>
+
+<div><pre><code class="language-none">select c. customer_name,c.customer_id
+from customer as c, cust_acct as ac, account as a
+where c.customer_id=ac.customer_id and a.account_id=ac.account_id and a. account_bank in(
+select a2.account_bank
+from account as a2,cust_acct as ac2,customer as c2
+where c2.customer_name=&#39;张三&#39; and c2.customer_id=ac2.customer_id and ac2.account_id=a2.account_id
+)
+order by c.customer_id desc limit 0,10;</code></pre></div>
+
+<p>该SQL中的子查询为非关联子查询，该子查询也可以移到from中。但是由于in()隐含了distinct，因此在from子查询中需要显式写distinct。如上可以改写为：</p>
+
+<div><pre><code class="language-none">select c.customer_name,c.customer_id
+from customer as c,cust_acct as ac,account as a,
+(
+select distinct a2.account_bank 
+from account as a2,cust_acct as ac2,customer as c2 
+where c2.customer_name=&#39;张三&#39; and c2.customer_id=ac2.customer_id and ac2.account_id=a2.account_id 
+) as tr
+where tr. account_bank=a. account_bank
+and c.customer_id=ac.customer_id and a.account_id=ac.account_id
+order by c.customer_id desc limit 0,10;</code></pre></div>
+
+<p>这两种写法的对比：
+1. from子句支持limit子句，在索引合适的情况下，添加order by和limit在子查询中可减少文件排序。 
+2. 带in的子查询和联表比起来，MySQL更喜欢联表。尤其是in()中子查询为空时，外层查询会逐行扫描对比，而此时联表查询会有较大优势</p>
+
+<h5 id="toc_125">带any，some或者all的嵌套查询</h5>
+
+<p>some,any和all可对子查询中返回的多行结果进行处理，下面简单介绍下这几个关键字的含义：</p>
+
+<ul>
+<li>some：表示满足其中一个的含义，是由or连起来的比较从句。</li>
+<li>any：也表示满足其中一个的意义，也是用or串起来的比较从句，区别是any一般用在非“=”的比较关系中，这也很好理解，英文中的否定句中使用any，肯定句中使用some，这一点是一样的。</li>
+<li>all: 表示满足其中所有的查询结果的含义，使用and串起来的比较从句。</li>
+</ul>
+
+<p>应用场景：本月内消费额度超过&#39;a-001&#39;账户的所有账户信息。</p>
+
+<div><pre><code class="language-none">select c.customer_name,c.customer_id
+from customer as c ,cust_acct  as ac, consume as c2
+where c.customer_id=ac.customer_id and ac.account_id=c2.account_id 
+and c2.expenditure &gt; any (select c3.expenditure  
+from consume as c3  
+where c3.account_id=&#39;a-001&#39;); </code></pre></div>
+
+<p>这里改为&gt;some(select c3. expenditure  from consume c3  where c3.account_id=&#39;a-001&#39;)也是符合语法的，查询结果也是一致的。</p>
+
+<h5 id="toc_126">带exists的嵌套查询</h5>
+
+<p>应用场景：账户开户以来一直没有消费记录的账户信息。</p>
+
+<div><pre><code class="language-none">select c.customer_name,c.customer_id
+from customer as c,cust_acct as ac 
+where c.customer_id=ac.customer_id and not exists
+(
+select c2. account_id
+from consume as c2
+where c2.account_id=ac.account_id
+);</code></pre></div>
+
+<p>该子查询是通过account_id进行关联，该查询也可以改写为无关联查询，如下：</p>
+
+<div><pre><code class="language-none">select c.customer_name,c.customer_id
+from customer as c,cust_acct as ac 
+where c.customer_id=ac.customer_id and ac.account_id not in
+(
+select c2. account_id
+from consume as c2
+);</code></pre></div>
+
+<p>在关联子查询和非关联子查询之间做选择并不是很困难，有些优化器会帮你做选择，在使用关联子查询和非关联子查询时，对于索引情况的假设不同，因为它不再是其他部分的查询的那个部分了。优化器会尽可能使用可用的索引，但不会创建索引</p>
+
+<h3 id="toc_127">优化器相关explain以及常用hint介绍</h3>
+
+<h4 id="toc_128">查看select语句执行计划的语法explain</h4>
+
+<h5 id="toc_129">MySQL explain输出信息介绍</h5>
+
+<p>MySQL Query Optimizer通过执行explain命令告诉我们它将使用一个怎么样的执行计划来优化query。因此explain是在优化query中最直接有效的验证我们想法的工具。</p>
+
+<p>要使用explain，只需把explain 放在查询语句的关键字select前面就可以了。MySQL会在查询里设置一个标记，当它执行查询时，这个标记会促使MySQL返回执行计划里每一步的信息。用不着真正执行。它会返回一行或多行。每行都会显示执行计划的每一个组成部分，以及执行的次序。</p>
+
+<p>MySQL只能解释select查询，无法解释存储过程的调用、insert、update、delete和其它语句。这时只有通过重写这些非select语句为select，使能够被explain。</p>
+
+<p>下面来详细解释下explain功能中展示的各种信息的解释</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">项</th>
+<th style="text-align: left">子类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">id</td>
+<td style="text-align: left"></td>
+<td style="text-align: left">MySQL Query Optimizer选定的执行计划中查询的序列号。表示查询中执行select子句或操作表的顺序，id值越大优先级越高，越先被执行。id相同，执行顺序由上至下。</td>
+</tr>
+<tr>
+<td style="text-align: left">select_type（所使用的查询类型）</td>
+<td style="text-align: left">dependent subquery</td>
+<td style="text-align: left">子查询内层的第一个查询，依赖于外部查询的结果集。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">dependent unoin</td>
+<td style="text-align: left">子查询中的unoin，且为union中从第二个select开始的后面所有select，同样依赖于外部查询的结果集。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">primary</td>
+<td style="text-align: left">子查询中的最外层查询，注意并不是主键查询。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">simple</td>
+<td style="text-align: left">除子查询或union外的其他查询。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">derived</td>
+<td style="text-align: left">用于from子句里有子查询的情况。MySQL会递归执行这些子查询，把结果放在临时表里。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">subquery</td>
+<td style="text-align: left">子查询内层查询的第一个查询，结果不依赖于外部查询结果集。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">uncacheable subquery</td>
+<td style="text-align: left">结果集无法缓存的子查询。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">union</td>
+<td style="text-align: left">union语句中第二个select开始后面的所有select，第一个select为primary。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">union</td>
+<td style="text-align: left">result  union中的合并结果集。</td>
+</tr>
+<tr>
+<td style="text-align: left">table</td>
+<td style="text-align: left"></td>
+<td style="text-align: left">显示这一步中锁访问的数据库中的表名称。</td>
+</tr>
+<tr>
+<td style="text-align: left">type（表示表的连接类型）</td>
+<td style="text-align: left">all</td>
+<td style="text-align: left">通常意味着必须扫描整张表，从头到尾，去找匹配的行。(这里也有例外，例如查询中使用了limit，或者在extra列里显示使用了distinct或not exists等限定词)。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">index</td>
+<td style="text-align: left">全索引扫描。与全表扫描一样，只是扫描表的时候按照索引次序进行而不是行。主要优点就是避免了排序；最大的缺点就是要承担索引次序读取整张表的开销。这一般意味着若是随机次序访问行，开销将会非常大。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">range</td>
+<td style="text-align: left">索引范围扫描。就是有限制的索引扫描，返回匹配某个值域的行。这比全索引扫描好些，因为不用便利遍历全部索引。常见于between、&lt;、&gt;等的查询。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">ref/ref_null</td>
+<td style="text-align: left">一种索引访问方式，它返回匹配某个单独值的所有行。但是它可能查找到多个符合条件的行，因此，它是查找和扫描的混合体。此类索引访问只有当使用非唯一索引或者唯一性索引的非唯一性前缀才会发生。叫做ref是因为索引要跟某个参考值相比较。这个参考值或者是一个常数，或者是来自一个表里的多表查询的结果值。ref<em>or</em>null是ref之上的一个变体，它意味着MySQL必须进行二次查找，在初次查找的结果里找出null条目。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">eq_ref</td>
+<td style="text-align: left">唯一性索引扫描，对于每个索引键，表中只有一条记录与之匹配。常见于主键或唯一索引扫描。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">index_merge</td>
+<td style="text-align: left">使用了索引合并优化方法(select id from t where a = 1 or b = 2)</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">const，system</td>
+<td style="text-align: left">当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问。如将主键置于where列表中，MySQL就能将该查询转换为一个常量。system是const类型的特例，当查询的表只有一行的情况下， 使用system。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">all</td>
+<td style="text-align: left">MySQL在优化过程中分解语句，执行时甚至不用访问表或索引。</td>
+</tr>
+<tr>
+<td style="text-align: left">possible_key</td>
+<td style="text-align: left"></td>
+<td style="text-align: left">这一列显示查询可以使用的索引，如果没有索引可以使用，就会显示为null。</td>
+</tr>
+<tr>
+<td style="text-align: left">key</td>
+<td style="text-align: left"></td>
+<td style="text-align: left">这一列显示的是MySQL Query Optimizer从possible<em>key选择使用的索引。需要注意的是查询中若使用了覆盖索引，则该索引仅出现在key列表中，不会出现在possible</em>keys列。possible_keys说明哪一个索引能有助于查询，而key显示的是优化器采用哪一个索引可以最小化查询成本。</td>
+</tr>
+<tr>
+<td style="text-align: left">key_len</td>
+<td style="text-align: left"></td>
+<td style="text-align: left">该列显示了使用的索引的索引键长度。由于索引的最左策略，因此通过该值可以计算查询中使用的索引情况。</td>
+</tr>
+<tr>
+<td style="text-align: left">ref</td>
+<td style="text-align: left"></td>
+<td style="text-align: left">这一列显示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值。</td>
+</tr>
+<tr>
+<td style="text-align: left">rows</td>
+<td style="text-align: left"></td>
+<td style="text-align: left">这一列显示的表示MySQL根据表统计信息及索引选用情况，估算的找到所需的记录所需要读取的行数。</td>
+</tr>
+<tr>
+<td style="text-align: left">filtered</td>
+<td style="text-align: left"></td>
+<td style="text-align: left">这一列是5.1加进去的。当使用explain extended时才会出现。它显示的是针对表里符合某个条件的记录数的百分比所作的一个悲观估算。rows列和这个百分比相乘，就能看到MySQL估算的它将和查询计划里前一个表联接的行数</td>
+</tr>
+<tr>
+<td style="text-align: left">extra（这一列包含的是不适合在其他列显示的额外信息）</td>
+<td style="text-align: left">using index</td>
+<td style="text-align: left">该值表示MySQL将使用覆盖索引，以避免访问表。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">using where</td>
+<td style="text-align: left">表示MySQL服务器在存储引擎收到记录后进行“后过滤”(post-filter),如果查询未能使用索引，using where的作用只是提醒我们MySQL将用where子句来过滤结果集。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">using temporary</td>
+<td style="text-align: left">表示MySQL在对查询结果排序时使用临时表。常见于排序和分组查询。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">using filesort</td>
+<td style="text-align: left">表示MySQL会对结果使用一个外部索引排序，而不是从表里按索引次序读到相关内容。可能在内存或者磁盘上进行排序。MySQL中无法利用索引完成的排序操作称为“文件排序”</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">range checked for each record(index map:n)</td>
+<td style="text-align: left">这表示没有好的索引可用，新的索引将在联接的每一行上被重新评估。n是显示在possible_keys列索引的位图。这是一个冗余。</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">not exists</td>
+<td style="text-align: left">一旦找到匹配left join的行就不再搜索</td>
+</tr>
+<tr>
+<td style="text-align: left"></td>
+<td style="text-align: left">using index</td>
+<td style="text-align: left">使用到了covering index</td>
+</tr>
+</tbody>
+</table>
+
+<h5 id="toc_130">extend explain输出信息</h5>
+
+<p>explain extended和普通的explain很相似，但是它会告知服务器把执行计划“反编译”成select语句，然后立即执行show warnings就能看到这些生成的语句。这些语句是直接来自执行计划，而不是原始的SQL语句。</p>
+
+<h5 id="toc_131">explain的局限</h5>
+
+<p>explain只是一个近似，没有更多的细节。有时它是一个很好的近似，但是有时它会远离真实情况，以下就是它的几个局限性：</p>
+
+<ol>
+<li>explain不会告诉你关于触发器、存储过程的信息或用户自定义函数对查询的影响情况。</li>
+<li>explain不考虑各种cache。</li>
+<li>explain不能显示MySQL在执行查询时所作的优化工作。</li>
+<li>一些显示出来的统计信息是估算的，不是很精确。</li>
+<li>expalin只能解释select操作，其他操作要重写为select后查看执行计划。</li>
+</ol>
+
+<h5 id="toc_132">MySQL制定的执行计划不一定最优</h5>
+
+<p>尽管优化器的作用是将很糟糕的语句转化成高效的处理方式，但即便是在索引建立的很合理，并且优化器得到正确的相关信息后，优化器还是可能会制定出错误方向的执行计划。一般会有两个方面的原因：</p>
+
+<ol>
+<li>优化器的缺陷。</li>
+<li>查询太复杂，优化器只能在给它的有限时间内尝试大量可能的组合中很少一部分优化方案，因此可能无法找到最佳执行计划。</li>
+</ol>
+
+<p>针对这种情况，最有效的解决办法就是正确编写查询。以更简单更直接的方式写SQL通常能节省优化器很多工作，因为它能很快命中一个很好而且很高效的执行计划</p>
+
+<h4 id="toc_133">MySQL干预执行计划的方法(hint)</h4>
+
+<p>如果不满意MySQL优化器选择的优化方案，可以使用一些优化提示来控制优化器的行为。下面简单介绍下在MySQL中常用的提示，以及使用它们的时机</p>
+
+<h5 id="toc_134">force index、use index、ignore index</h5>
+
+<p>这些提示告诉优化器在该表中查询时使用或者忽略该索引。</p>
+
+<p>force index和using index是一样的。但是它告诉优化器，表扫描比起索引来说代价要高很多，即使索引不是非常有效。</p>
+
+<p>在MySQL5.0及以前版本中，它们不会影响排序和分组使用的索引</p>
+
+<h5 id="toc_135">straight_join</h5>
+
+<p>这个提示用于select语句中select关键字的后面，也可以用于联接语句。因此它的第一个用途是强制MySQL按照查询中表出现的顺序来联接表，第二个用途是当它出现在两个联表的表中间时，强制这两个表按照顺序联接。</p>
+
+<p>straight_join在MySQL没有选择好的连接顺序，或者当优化器花费很长时间确定连接顺序的时候很有用。在后一种的情况下，线程将会在“统计”状态停留很长时间，添加这个提示将会减少优化器的搜索空间。</p>
+
+<p>可以使用explain查看优化器选择的联接顺序，然后按照顺序重写连接，并且加上straight_join提示</p>
+
+<h5 id="toc_136">sql<em>no</em>cache、sql_cache</h5>
+
+<p>sql<em>cache表明查询结果需要进行缓存，结果进行缓存和变量query</em>cache<em>type，have</em>query<em>cache以及query</em>cache_limit的设置有关。</p>
+
+<p>而sql<em>no</em>cache表明查询结果不需要进行缓存</p>
+
+<h5 id="toc_137">high<em>priority、low</em>priority</h5>
+
+<p>这两个提示决定了访问同一个表的SQL语句相对其它语句的优先级。</p>
+
+<p>high_priority提示用于select和insert。是将一个查询语句放在队列的前面，而不是在队列中等待。</p>
+
+<p>low<em>priority提示用于select、insert、update、replace、delete、load data。和high</em>priority相反，如果有其他语句访问数据，它就把当前语句放在队列的最后。</p>
+
+<p>这两个提示不是指在查询上分配较多或者较少资源。它们只是影响服务器对访问表的队列的处理。</p>
+
+<h5 id="toc_138">delayed</h5>
+
+<p>这个提示用于insert和update。使用了该提示的语句会立即返回并且将插入的列放在缓冲区中，在表空闲的时候在执行插入。它对于记录日志很有用，对于某些需要插入大量数据，对每一个语句都引发I/O操作但是又不希望客户等待的应用程序很有用。但是它有很多限制，比如：延迟插入不能运行于所有的存储引擎上(仅适用于MyISAM, Memory和Archive表)，并且它也无法使用last<em>insert</em>id()</p>
+
+<h5 id="toc_139">sql<em>small</em>result、sql<em>big</em>result</h5>
+
+<p>这两个提示用于select语句。它们会告诉MySQL在group by或distinct查询中如何并且何时使用临时表。sql<em>small</em>result告诉优化器结果集会比较小，可以放在索引过的临时表中，以避免对分组后的数据排序。sql<em>big</em>result的意思是结果集比较大，最好使用磁盘上的临时表进行排序</p>
+
+<h5 id="toc_140">sql<em>buffer</em>result</h5>
+
+<p>这个提示告诉优化器将结果存放在临时表中，并且尽快释放掉表锁</p>
+
+<h3 id="toc_141">触发器</h3>
+
+<p>MySQL从5.0.2开始支持触发器的功能。触发器是与表有关的数据库对象，在满足定义条件时触发，并执行触发器中定义的语句集合。触发器的这种特性可以协助应用在数据库端确保数据的完成性</p>
+
+<h4 id="toc_142">触发器的语法规范</h4>
+
+<p>创建触发器的语句如下：</p>
+
+<div><pre><code class="language-none">create trigger trigger_name trigger_time trigger_event
+on tbl_name for each row trigger_stmt;</code></pre></div>
+
+<p>触发程序与命名为tbl<em>name的表相关。tbl</em>name必须引用永久性表。不能将触发程序与temporary表或视图关联起来。</p>
+
+<p>trigger_time是触发程序的动作时间。它可以是before或after，以指明触发程序是在激活它的语句之前或之后触发。</p>
+
+<p>trigger<em>event指明了激活触发程序的语句的类型。trigger</em>event可以是下述值之一：
+1. insert：将新行插入表时激活触发程序，例如，通过insert、load data和replace语句。
+2. update：更改某一行时激活触发程序，例如，通过update语句。
+3. delete：从表中删除某一行时激活触发程序，例如，通过delete和replace语句。</p>
+
+<p>对同一个表相同触发时间的相同触发事件，只能定义一个触发器。</p>
+
+<p>在触发器中使用别名new和old来引用触发器中发生变化的记录内容。使用old和new关键字，能够访问受触发程序影响的行中的列(old和new不区分大小写)。在insert触发程序中，仅能使用new.col<em>name，没有旧行。在delete触发程序中，仅能使用old.col</em>name，没有新行。在update触发程序中，可以使用old.col<em>name来引用更新前的某一行的列，也能使用new.col</em>name来引用更新后的行中的列。</p>
+
+<p>现在的触发器还只支持行级触发，不支持语句级触发。</p>
+
+<p>另外在触发程序的执行过程中，MySQL处理错误的方式如下：</p>
+
+<ol>
+<li>如果before触发程序失败，不执行相应行上的操作。</li>
+<li>仅当before触发程序(如果有的话)和行操作均已成功执行，才执行after触发程序。</li>
+<li>如果在before或after触发程序的执行过程中出现错误，将导致调用触发程序的整个语句的失败。</li>
+</ol>
+
+<p>对于事务性表，如果触发程序失败(以及由此导致的整个语句的失败)，该语句所执行的所有更改将回滚。对于非事务性表，不能执行这类回滚，因而，即使语句失败，失败之前所作的任何更改依然有效。应用场景：张三消费时，同时更新账号表的信息。</p>
+
+<div><pre><code class="language-none">delimiter $$
+create trigger tr_upd_acc after insert
+on consume
+for  each row begin
+update account set balance=balance-new.expenditure;
+end $$
+delimiter ;</code></pre></div>
+
+<p>创建该触发器后，当账号有消费记录时，即消息记录表consume表插入一行后，将触发该触发器，会对账号表的余额进行更新。这时能达到对账号余额的控制。</p>
+
+<p>注：创建触发器需要super权限。激活的触发器，对于触发程序引用的所有old和new列，需要具有select权限，对于作为set赋值目标的所有new列，需要具有update权限。其他操作也类似。</p>
+
+<p>在一个命名空间中，触发器的名字必须是唯一的，对于能够创建的触发程序的类型还存在其他限制。尤其是，对于具有相同触发时间和触发事件的表，不能有2个触发程序。例如：不能定义两个after update的触发器。当然这样也是无意义的。需要考虑总和需求。</p>
+
+<p>删除触发器的语法如下：</p>
+
+<div><pre><code class="language-none">drop trigger [schema_name.]trigger_name;</code></pre></div>
+
+<p>注：删除触发器也需要super权限</p>
+
+<h4 id="toc_143">触发器的注意事项</h4>
+
+<p>MySQL的触发器在使用时有许多限制，主要的限制包括：</p>
+
+<ol>
+<li>触发器只能用于永久表，不能用于临时表或者视图；</li>
+<li>触发器不能调用存储过程；</li>
+<li>触发器不能使用事务控制相关的语句，包括隐含comimit或者rollback的语句；</li>
+<li>在before触发程序中，auto_increment列的new值为0，不是实际插入新记录时将自动生成的序列号；</li>
+<li>函数、过程或者触发器无法调用lock table、load data、load table、check table、flush等相关语句；</li>
+<li>触发器无法使用返回数据集的select函数，但可以使用select…into，也可以使用光标及fetch语句；</li>
+<li>由于主库上触发器SQL不会发送到从库上，主从库均可根据应用具体需求创建触发器</li>
+</ol>
+
+<h4 id="toc_144">何时不用触发器(尽量别用)</h4>
+
+<p>由于触发器的如上的几个限制问题，可能会要求触发器改为使用应用程序来实现。</p>
+
+<p>触发器功能强大，轻松可靠地实现许多复杂的功能。但是写触发器时，应特别小心。因为一个触发器错误会导致引发该触发器的插入/删除/更新语句失败。因此业务上有其它需求的需要考虑在应用程序上去实现。</p>
+
+<p>同时一个触发器的动作可以引发另外一个触发器。数据库系统通常都会限制触发器链的长度，把更长的触发器链看成为一个错误。因此业务上有较多级关系时也需要考虑使用应用程序来实现。而且程序中触发器不可滥用，否则会造成应用程序的维护困难</p>
+
+<h3 id="toc_145">存储过程和自定义函数</h3>
+
+<p>MySQL从5.0版本开始支持存储过程。存储程序是被存储在服务器中的一段SQL语句的集合，调用存储过程可以简化应用开发人员的很多工作，减少数据在数据库和应用服务器之间的传输，对于提高数据处理的效率是很有好处的</p>
+
+<h4 id="toc_146">语法</h4>
+
+<h5 id="toc_147">如何使用存储过程和自定义函数</h5>
+
+<ul>
+<li>创建存储过程和自定义函数</li>
+</ul>
+
+<div><pre><code class="language-none">create procedure sp_name ([proc_parameter[,...]])
+    [characteristic ...] routine_body
+ create function sp_name ([func_parameter[,...]])
+    returns type
+    [characteristic ...] routine_body
+     proc_parameter:
+    [ in | out | inout ] param_name type
+     func_parameter:
+    param_name type
+ type:
+    any valid mysql data type
+ characteristic:
+    language sql
+  | [not] deterministic
+  | { contains sql | no sql | reads sql data | modifies sql data }
+  | sql security { definer | invoker }
+  | comment &#39;string&#39;
+ routine_body:
+    valid sql procedure statement or statements</code></pre></div>
+
+<ul>
+<li>改存储过程和自定义函数</li>
+</ul>
+
+<div><pre><code class="language-none">alter {procedure | function} sp_name [characteristic ...]
+ characteristic:
+    { contains sql | no sql | reads sql data | modifies sql data }
+  | sql security { definer | invoker }
+  | comment &#39;string&#39;</code></pre></div>
+
+<ul>
+<li>删除存储过程和自定义函数</li>
+</ul>
+
+<div><pre><code class="language-none">drop {procedure | function} [if exists] sp_name</code></pre></div>
+
+<ul>
+<li>调用存储过程和自定义函数</li>
+</ul>
+
+<div><pre><code class="language-none">call sp_name([parameter[,...]])</code></pre></div>
+
+<ul>
+<li>call语句调用一个先前用create procedure创建的程序。 </li>
+<li>call语句可以用 声明为out或inout参数的参数给它的调用者传回值。它也“返回”受影响的行数，客户端程序可以在SQL级别通过调用row_count()函数获得这个值。</li>
+<li>查看存储过程</li>
+<li>使用show procedure status或者information_schema可以查看procedure的信息，show create procedure可以查看procedure的定义信息。</li>
+<li>它返回一个可用来重新创建已命名存储过程的确切字符串。show procedure status [like &#39;pattern&#39;];</li>
+<li>存储过程的特征，如数据库，名字，类型，创建者及创建和修改日期。如果没有指定样式，根据你使用的语句，所有存储程序的信息都被列出</li>
+</ul>
+
+<h5 id="toc_148">参数</h5>
+
+<p>存储过程的参数分为in、out、inout三种</p>
+
+<h5 id="toc_149">变量</h5>
+
+<p>声明变量</p>
+
+<div><pre><code class="language-none">declare var_name[,...] type [default value]</code></pre></div>
+
+<p>给变量赋值
+* 方式一：set var<em>name = expr [, var</em>name = expr] ...
+* 方式二：select col<em>name[,...] into var</em>name[,...] table_expr</p>
+
+<p>注意：用户变量名在MySQL 5.1中是对大小写不敏感的。同时SQL变量名不能和列名一样。如果select ... into这样的SQL语句包含一个对列的参考，并包含一个与列相同名字的局部变量，MySQL当前把参考解释为一个变量的名字</p>
+
+<h5 id="toc_150">流程控制语句</h5>
+
+<p>可以使用if、case、loop、leave、iterate、repeat以及while语句进行流程控制，下面逐一介绍。
+1.  if语句
+<code>
+    if search_condition then statement_list
+        [elseif search_condition then statement_list] ...
+        [else statement_list]
+end if；
+</code></p>
+
+<ol>
+<li>如果search<em>condition求值为真，相应的SQL语句列表被执行。如果没有search</em>condition匹配，在else子句里的语句列表被执行。</li>
+<li>case语句</li>
+</ol>
+
+<div><pre><code class="language-none">    case case_value
+      when when_value then statement_list
+        [when when_value then statement_list] ...
+      [else statement_list]
+end case;
+or: 
+case
+      when search_condition then statement_list
+      [when search_condition then statement_list] ...
+      [else statement_list]
+end case;</code></pre></div>
+
+<ol>
+<li>存储程序的case语句实现一个复杂的条件构造。如果search_condition 求值为真，相应的SQL被执行。如果没有搜索条件匹配，在else子句里的语句被执行。</li>
+<li>loop语句</li>
+</ol>
+
+<div><pre><code class="language-none">[begin_label:] loop
+statement_list
+end loop [end_label]</code></pre></div>
+
+<ol>
+<li>loop允许某特定语句或语句群的重复执行，实现一个简单的循环构造。在循环内的语句一直重复直到循环被退出，退出通常伴随着一个leave 语句。</li>
+<li>loop语句可以被标注。除非begin<em>label存在，否则end</em>label不能被给出，并且如果两者都出现，它们必须是同样的。</li>
+<li>leave语句</li>
+</ol>
+
+<div><pre><code class="language-none">leave label;</code></pre></div>
+
+<ol>
+<li>这个语句被用来退出任何被标注的流程控制构造。它和begin ... end或循环一起被使用。</li>
+<li>iterate语句</li>
+</ol>
+
+<div><pre><code class="language-none">iterate label;</code></pre></div>
+
+<ol>
+<li>iterate只可以出现在loop, repeat, 和while语句内。iterate意思为：“再次循环。” </li>
+<li>repeate语句</li>
+</ol>
+
+<div><pre><code class="language-none">[begin_label:] repeat
+statement_list
+until search_condition
+end repeat [end_label]</code></pre></div>
+
+<ol>
+<li>repeat语句内的语句或语句群被重复，直至search_condition 为真。</li>
+<li>repeat 语句可以被标注。 除非begin<em>label也存在，end</em>label才能被用，如果两者都存在，它们必须是一样的。</li>
+<li>while语句</li>
+</ol>
+
+<div><pre><code class="language-none">[begin_label:] while search_condition do
+     statement_list
+end while [end_label]</code></pre></div>
+
+<ol>
+<li>while语句内的语句或语句群被重复，直至search_condition 为真。</li>
+<li>while语句可以被标注。 除非begin<em>label也存在，end</em>label才能被用，如果两者都存在，它们必须是一样的</li>
+</ol>
+
+<h5 id="toc_151">条件和处理程序</h5>
+
+<div><pre><code class="language-none">declare handler_type handler for condition_value[,...] sp_statement
+ handler_type:
+    continue
+  | exit
+  | undo
+ condition_value:
+    sqlstate [value] sqlstate_value
+  | condition_name
+  | sqlwarning
+  | not found
+  | sqlexception
+  | mysql_error_code</code></pre></div>
+
+<p>这个语句指定每个可以处理一个或多个条件的处理程序。如果产生一个或多个条件，指定的语句被执行。</p>
+
+<p>对一个continue处理程序，当前子程序的执行在执行 处理程序语句之后继续。对于exit处理程序，当前begin...end复合语句的执行被终止。undo 处理程序类型语句还不被支持。</p>
+
+<ul>
+<li>sqlwarning是对所有以01开头的sqlstate代码的速记。</li>
+<li>not found是对所有以02开头的sqlstate代码的速记。</li>
+<li>sqlexception是对所有没有被sqlwarning或not found捕获的sqlstate代码的速记。</li>
+</ul>
+
+<p>除了sqlstate值，MySQL错误代码也不被支持</p>
+
+<h5 id="toc_152">存储过程和自定义函数的注意事项</h5>
+
+<p>和触发器类似，存储过程和自定义函数在使用中也有一些注意事项，具体如下：</p>
+
+<ol>
+<li>MySQL记录每个发生在存储程序和函数里的DML事件，并复制这些单独的行为到从服务器。除DML外的存储程序和函数中的语句不会被复制。</li>
+<li>注意自定义函数和触发器不是这样的。主服务器不会记录自定义函数和触发器里的DML事件，会记录自定义函数的调用，而触发器是在从服务上执行到触发条件时会被触发。</li>
+<li>存储过程和自定义函数禁用check tables、lock tables、unlock tables、load data、 load table、flush语句以及SQL预处理语句(prepare、execute、deallocate prepare)。在5.0.13中放宽了限制，可以在存储过程中使用，但是在用户自定义函数中还是不可以使用。</li>
+<li>对于自定义函数额外的限制：禁止执行显式或隐式提交或回滚操作的语句以及返回结果集的语句</li>
+</ol>
+
+<h5 id="toc_153">存储过程优势</h5>
+
+<p>存储过程主要是把一组SQL语句和控制语句组成起来，然后封装在一起的过程，它驻留在数据库中，可以被客户应用程序调用，也可以从另一个存储过程或触发器调用。</p>
+
+<p>它实现的功能也可以在应用程序中实现。但是和应用程序相比，存储过程有如下优势：</p>
+
+<ol>
+<li>模块化程序设计：只需一次性编写然后存储在数据库中，以后就可以在应用程序中调用存储过程。</li>
+<li>方便的管理与部署： 如果使用应用程序来实现的某业务功能变更时，就需要重新编码，编译，以及重新部署在服务器上。而用存储过程方式实现，就不需要对应用程序进行重编译，直接修改存储过程就可以。</li>
+<li>提供了更安全的实现机制：通过对执行某一存储过程的权限进行限制，从而能够实现对相应的数据访问权限的限制，避免非授权用户对数据的访问，保证数据的安全</li>
+</ol>
+
+<h3 id="toc_154">应用与SQL设计</h3>
+
+<p>通常认为改写查询是优化数据库访问的最终办法。尽管如此，它并不是最值得关注和最高效的方法</p>
+
+<h4 id="toc_155">应用需求与SQL设计</h4>
+
+<p>应用需求的合理性在应用设计中很容易被忽略，但是一个不合理的需求可能在整个系统中是画蛇添足的，甚至带来资源的浪费。同时需求是否合理并不是很容易界定，尤其是对纯技术人员来说。因此在应用需求的提出，设计，开发，后期的维护中，需要评估项目的一个投入产出比率。在立项之初需要判断该功能的预期投入产出比率是否合理，判定项目是否有必要进行。同时也可在上线后，在有了实际的投入产出比后，拿真实数据来说话，让一些不合理的功能应该撤下来</p>
+
+<p>案例分析：</p>
+
+<p>点击到用户的账户页面时，显示该用户的每个账户的消费次数(要求实时更新)。</p>
+
+<p>首先觉得这个功能非常容易实现。执行一条select count(*) from consume where account_id=1;如果存放消费记录的表已经有上千万的帖子，执行该条qeury的成本就比较高，同时当并发量较大时，这个应该不是一个简单的事情。
+为实现该功能，可能会想到再添加一张表，在这个表中存放消费次数。每次有新的消费时，就增加1。这个查询效率暂时能满足查询需求，如果随着账户增多，以及高峰期每秒几十或者上百次的消费记录产生。恐怕这个表也要成为噩梦了。</p>
+
+<p>其实这个问题的关键不是实现这个问题的技术细节，而是这个功能带来的收益。到底有多少人会关注消费次数，尤其是消费次数很大时。</p>
+
+<p>同时随着系统不断升级也很容易造成系统复杂，从而影响系统性能。因此在系统升级中也需要注意投入产出比率。尤其需要注意升级对主要的业务功能带来的影响。</p>
+
+<p>另外还需要注意大量非核心的业务是否消耗了过多的数据库资源。因此除了考虑投入产出比，还多注意核心业务和非核心业务在数据库资源上的消耗情况</p>
+
+
+
+
+</body>
+
+</html>
